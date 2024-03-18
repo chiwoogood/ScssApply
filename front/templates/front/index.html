@@ -25,7 +25,8 @@
 				<!-- Header -->
 					<header id="header">
 						<div class="logo">
-							<span class="fas fa-faucet-drip"></span>
+							<!-- <span class="fas fa-faucet-drip"></span> -->
+							<a href="http://www.mstec.kr/kr/main/main.php"><img style="margin-top:1em; height: 65%; width: 65%;" src="{% static 'front/images/logo-removed.png' %}"></a>
 						</div>
 						<div class="content">
 							<div class="inner">
@@ -33,19 +34,17 @@
 								<p>공동 건물, 주택 저수조 In/Out 배관과 건물 내부 특정 위치의 급수관에 연결하여 수돗물의 수질 상태를 실시간 모니터링 </br> 인공지능 수질 분석 솔루션에 의해 분석된 수돗물 수질, 배관, 저수조 등의 이상탐지 및 오염 예측정보를 제공하는 스마트 시스템입니다.</p>			
 								<!-- login form 시작-->
 								<form>
-									<input style="margin-bottom: 0.5rem;" type="text" name="username" placeholder="ID">
-									<input style="margin-bottom: 0.5rem;" type="password" name="password" placeholder="Password">
+									<input style="margin-bottom: 0.9rem;" type="text" name="username" placeholder="ID">
+									<input style="margin-bottom: 0.9em;" type="password" name="password" placeholder="Password">
 									<button type="submit">로그인</button>
-									<span>
-										<button type="button">ID 찾기</button>
-										<button type="button">PW 재설정</button>
-										<button type="button">회원가입</button>
-									</span>
+
 								</form>
-	
+								<span>
+									<button type="button">ID 찾기</button>
+									<button type="button">PW 재설정</button>
+									<button type="button">회원가입</button>
+								</span>
 								<!-- login form 끝-->
-								<!-- <a href="#"><img src="./images/mstec-logo-removed.png"></a> -->
-								<a href="#"><img src="{% static 'front/images/mstec-logo-removed.png' %}"></a>
 							</div>
 						</div>
 						<nav>
@@ -53,6 +52,8 @@
 								<li><a href="#intro">Intro</a></li>
 								<li><a href="#work">Work</a></li>
 								<li><a href="#about">About</a></li>
+								<li><a href="#contact">Contact</a></li>
+								<li><a href="#contact">Contact</a></li>
 								<li><a href="#contact">Contact</a></li>
 								<!--<li><a href="#elements">Elements</a></li>-->
 							</ul>

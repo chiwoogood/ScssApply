@@ -1,1 +1,1213 @@
-111
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1, maximum-scale=1">
+    <title>Smart PureWater System</title>
+    <link rel="stylesheet" href="{% static 'front/css/main.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/earlyaccess/jejugothic.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800">
+    <link rel="icon" href="../static/img/favicon.png">
+</head>
+
+<body>
+    <div class="header">
+
+        <div class="bldg_name">[]</div>
+        <div class="water_condition">
+            <span class="label">현재 수돗물 수질 상태 : </span>
+            <span class="value">-</span>
+        </div>
+        <div class="list_index">
+            <div class="warning">
+                <span class="label">주의 항목:</span>
+                <span class="value">-</span>
+            </div>
+            <div class="danger">
+                <span class="label">심각 항목:</span>
+                <span class="value">-</span>
+            </div>
+        </div>
+
+        <div class="member">
+            <p class="id">/</p>
+            <p class="logout"><a href="#">로그아웃</a></p>
+            <p class="info"><a href="#">회원정보</a></p>
+        </div>
+        {% if loc_info %}
+        <div class="loc_sel">
+            <select name="loc_info" class="loc_info">
+                {% for loc in loc_info %}
+                    <option value="{{loc.loc_id}}" {% if loc.loc_id == request.COOKIES.loc_id %} selected {% endif %}>{{loc.loc_name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        {% endif %}
+        <button class="btn_fullscreen">전체화면</button>        
+    </div>
+
+    <div class="main">
+        <!-- 장고가 제공하는 보안 library, 실은 id부분만 필요하고 다른 부분이 딱히 상확없대 -->
+        <input type="hidden" id="csrfmiddlewaretoken" value="{{csrf_token}}">
+        <div class="section">
+            <div class="section_weather_time">
+                <div class="weather_time">
+                    <div class="img_weather"></div>
+                    <div class="description">-</div>
+                    <div class="area">
+                        <span class="img_pin"><img src="../static/img/pin.png"></span>
+                        <span class="location">-</span>
+                    </div>
+                    <div class="temperature"><span id="text_temperature"></span><span>°C</span></div>
+                    <div class="wind_speed">
+                        <span class = "winds_name"><img src="../static/img/wind_speed.png"> 현재풍속  </span>
+                        <span id="text_wind_speed"></span><span>&nbsp;m/s</span>
+                    </div>
+                    <div class="humidity">
+                        <span class = "hum_name"><img src="../static/img/humidity.png"> 현재습도  </span>
+                        <span id="text_humidity"></span><span>&nbsp;%</span>
+                    </div>
+                    <div class="precipitation">
+                        <span><img src="../static/img/precipitation.png"></span>
+                        <span id="text_precipitation"></span><span>&nbsp;mm</span>
+                    </div>
+                    <div class="hms">- : - : -</div>
+                    <div class="date">-</div>
+                </div>
+            </div>
+            <div class="section_k_water">
+                <div class="k_water">
+                    <div class="title">우리동네 수돗물 수질 정보</div>
+                    
+                    <div class="select_region">
+                        <div class="title">지역 선택</div>
+                        <div class="label_si">시 / 도</div>
+                        <div class="label_gu">구 / 군</div>
+                        <div class="label_dong">동 / 읍 / 면</div>
+                        <div class="cbox_si"><select region="si" id="select_region_si" style="cursor: pointer"></select></div>
+                        <div class="cbox_gu"></span><select region="gu" id="select_region_gu" style="cursor: pointer"></select></div>
+                        <div class="cbox_dong"></span><select region="dong" id="select_region_dong" style="cursor: pointer"></select></div>
+                    </div>
+
+                    <div class="img_result"></div>
+                    <div class="status">-</div>
+                    <div class="region"></div>
+                    <div class="water_repos"><span id="text_point_name"></span></div>
+                    <div class="update_time"></div>
+                    <div class="data">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>항목</td>
+                                    <td>값</td>
+                                    <td>상태</td>
+                                </tr>
+                                <tr>
+                                    <td>잔류 염소 (mg/L)
+                                    <p>환경부 기준: 4.0 이하</p>
+                                    </td>
+                                    <td><span id="text_FCL">N/A</span></td>
+                                    <td><span id="result_FCL">N/A</td>
+                                </tr>
+                                <tr>
+                                    <td>탁도 (NTU)
+                                    <p>환경부 기준: 0.5 이하</p>
+                                    </td>
+                                    <td><span id="text_TURBIDITY">N/A</td>
+                                    <td><span id="result_TURBIDITY">N/A</td>
+                                </tr>
+                                <tr>
+                                    <td>pH
+                                    <p>환경부 기준: 5.8 ~ 8.5</p>
+                                    </td>
+                                    <td><span id="text_pH">N/A</span></td>
+                                    <td><span id="result_pH">N/A</td>
+                                </tr>
+                                <tr>
+                                    <td>TDS (mg/L)
+                                    <p>환경부 기준: 500 이하</p>
+                                    </td>
+                                    <td><span id="text_TDS">N/A</td>
+                                    <td><span id="result_TDS">N/A</td>
+                                </tr>
+                                <tr>
+                                    <td>EC (us/cm)
+                                        <p>수돗물 평균: 140 ~ 300</p>
+                                    </td>
+                                    <td><span id="text_EC">N/A</td>
+                                    <td><span id="result_EC">N/A</td>
+                                </tr>
+                                <tr>
+                                    <td>수온 (°C)</td>
+                                    <td><span id="text_TEMP">N/A</span></td>
+                                    <td><span id="result_TEMP">N/A</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section_sensor_chart">
+
+                <div class="sensor_part">
+                    <div class="sensor_info">
+                        <span class="sensor_info_time">
+                            <span class="label">측정 시간:</span>
+                            <span class="time">- 년 - 월 - 일  - 시 - 분 - 초</span>
+                            <span class="status_img"></span>
+                        </span>
+        
+                        <span class="sensor_info_temp">
+                            <span class="label_temp_hum">저수조 실 온도: </span>
+                            <span class="temp"> N/A </span>
+                            <span> / 습도:</span>
+                            <span class="hum"> N/A </span>
+                        </span>
+                    </div>
+                    {% if loc_type == 0 or loc_type == 5 %}  <!-- 공공건물 -->
+                    <div class="sensor_group">
+                        <div class="sensor FCL">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name FCL" style="cursor: pointer">잔류 염소</button>
+                                    
+                                </div>
+                                <div class="reference">
+                                    환경부 기준: 4.0~0.1 mg/L
+                                </div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value facility_value_dp">N/A</div>
+                                <div class='img'>
+                                </div>
+                                <div class="result_in">N/A</div>
+                                <div class="value_in">N/A</div>
+                                <div class="result_out">N/A</div>
+                                <div class="value_out">N/A</div>
+                            </div>
+                        </div>
+                        <div class="sensor TURBIDITY">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name TURBIDITY" style="cursor: pointer">탁도</button>
+                                </div>
+                                <div class="reference">
+                                    환경부 기준: 0.5 NTU 이하
+                                </div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value facility_value_dp">N/A</div>
+                                <div class='img'></div>
+                                <div class="result_in">N/A</div>
+                                <div class="value_in">N/A</div>
+                                <div class="result_out">N/A</div>
+                                <div class="value_out">N/A</div>
+                            </div>
+                        </div>
+                        <div class="sensor pH">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name pH" style="cursor: pointer">pH</button>
+                                </div>
+                                <div class="reference">
+                                    환경부 기준: 5.8~8.5
+                                </div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value facility_value_dp">N/A</div>
+                                <div class='img'></div>
+                                <div class="result_in">N/A</div>
+                                <div class="value_in">N/A</div>
+                                <div class="result_out">N/A</div>
+                                <div class="value_out">N/A</div>
+                            </div>
+                        </div>
+                        <div class="sensor TDS">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name TDS" style="cursor: pointer">TDS</button>
+                                </div>
+                                <div class="reference">
+                                    환경부 기준: 500 mg/L 이하
+                                </div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value facility_value_dp">N/A</div>
+                                <div class='img'></div>
+                                <div class="result_in">N/A</div>
+                                <div class="value_in">N/A</div>
+                                <div class="result_out">N/A</div>
+                                <div class="value_out">N/A</div>
+                            </div>
+                        </div>
+                        <div class="sensor EC">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name EC" style="cursor: pointer">EC(전기 전도도)</button>
+                                </div>
+                                <div class="reference">
+                                    수돗물 평균: 140∼300 us/cm
+                                </div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value facility_value_dp">N/A</div>
+                                <div class='img'></div>
+                                <div class="result_in">N/A</div>
+                                <div class="value_in">N/A</div>
+                                <div class="result_out">N/A</div>
+                                <div class="value_out">N/A</div>
+                            </div>
+                        </div>
+                        <div class="sensor TEMP">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name TEMP">수온 (°C)</button>
+                                </div>
+                                <div class="reference"></div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value facility_value_dp">N/A</div>
+                                <div class='img'></div>
+                                <div class="result_in">N/A</div>
+                                <div class="value_in">N/A</div>
+                                <div class="result_out">N/A</div>
+                                <div class="value_out">N/A</div>
+                            </div>
+                        </div>
+                    </div>
+                    {% elif loc_type == 2 %}  <!-- 학교+조리실 -->
+                    <div class="sensor_group">
+                        <div class="sensor FCL">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name FCL" style="cursor: pointer">잔류 염소</button>
+                                    
+                                </div>
+                                <div class="reference">
+                                    환경부 기준: 4.0~0.1 mg/L
+                                </div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value facility_value_dp">N/A</div>
+                                <div class='img_school_pipe'></div>
+                                <div class='img_school'></div>
+                                <div class="result_in result_sch">N/A</div>
+                                <div class="value_in value_sch">N/A</div>
+                            </div>
+                        </div>
+                        <div class="sensor TURBIDITY">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name TURBIDITY" style="cursor: pointer">탁도</button>
+                                </div>
+                                <div class="reference">
+                                    환경부 기준: 0.5 NTU 이하
+                                </div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value facility_value_dp">N/A</div>
+                                <div class='img_school_pipe'></div>
+                                <div class='img_school'></div>
+                                <div class="result_in result_sch">N/A</div>
+                                <div class="value_in value_sch">N/A</div>
+                            </div>
+                        </div>
+                        <div class="sensor pH">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name pH" style="cursor: pointer">pH</button>
+                                </div>
+                                <div class="reference">
+                                    환경부 기준: 5.8~8.5
+                                </div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value facility_value_dp">N/A</div>
+                                <div class='img_school_pipe'></div>
+                                <div class='img_school'></div>
+                                <div class="result_in result_sch">N/A</div>
+                                <div class="value_in value_sch">N/A</div>
+                            </div>
+                        </div>
+                        <div class="sensor TDS">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name TDS" style="cursor: pointer">TDS</button>
+                                </div>
+                                <div class="reference">
+                                    환경부 기준: 500 mg/L 이하
+                                </div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value facility_value_dp">N/A</div>
+                                <div class='img_school_pipe'></div>
+                                <div class='img_school'></div>
+                                <div class="result_in result_sch">N/A</div>
+                                <div class="value_in value_sch">N/A</div>
+                            </div>
+                        </div>
+                        <div class="sensor EC">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name EC" style="cursor: pointer">EC(전기 전도도)</button>
+                                </div>
+                                <div class="reference">
+                                    수돗물 평균: 140∼300 us/cm
+                                </div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value facility_value_dp">N/A</div>
+                                <div class='img_school_pipe'></div>
+                                <div class='img_school'></div>
+                                <div class="result_in result_sch">N/A</div>
+                                <div class="value_in value_sch">N/A</div>
+                            </div>
+                        </div>
+                        <div class="sensor TEMP">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name TEMP">수온 (°C)</button>
+                                </div>
+                                <div class="reference"></div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value facility_value_dp">N/A</div>
+                                <div class='img_school_pipe'></div>
+                                <div class='img_school'></div>
+                                <div class="result_in result_sch">N/A</div>
+                                <div class="value_in value_sch">N/A</div>
+                            </div>
+                        </div>
+                    </div>
+                    {% elif loc_type == 3 %}  <!-- 학교+음수대 -->
+                    <div class="sensor_group">
+                        <div class="sensor FCL">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name FCL" style="cursor: pointer">잔류 염소</button>
+                                    
+                                </div>
+                                <div class="reference">
+                                    환경부 기준: 4.0~0.1 mg/L
+                                </div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value facility_value_dp">N/A</div>
+                                <div class='img_school_pipe'></div>
+                                <div class='img_school'></div>
+                                <div class="result_in  result_sch">N/A</div>
+                                <div class="value_in value_sch">N/A</div>
+                            </div>
+                        </div>
+                        <div class="sensor TURBIDITY">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name TURBIDITY" style="cursor: pointer">탁도</button>
+                                </div>
+                                <div class="reference">
+                                    환경부 기준: 0.5 NTU 이하
+                                </div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value facility_value_dp">N/A</div>
+                                <div class='img_school_pipe'></div>
+                                <div class='img_school'></div>
+                                <div class="result_out">N/A</div>
+                                <div class="value_out">N/A</div>
+                            </div>
+                        </div>
+                        <div class="sensor pH">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name pH" style="cursor: pointer">pH</button>
+                                </div>
+                                <div class="reference">
+                                    환경부 기준: 5.8~8.5
+                                </div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value facility_value_dp">N/A</div>
+                                <div class='img_school_pipe'></div>
+                                <div class='img_school'></div>
+                                <div class="result_out">N/A</div>
+                                <div class="value_out">N/A</div>
+                            </div>
+                        </div>
+                        <div class="sensor TDS">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name TDS" style="cursor: pointer">TDS</button>
+                                </div>
+                                <div class="reference">
+                                    환경부 기준: 500 mg/L 이하
+                                </div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value facility_value_dp">N/A</div>
+                                <div class='img_school_pipe'></div>
+                                <div class='img_school'></div>
+                                <div class="result_out">N/A</div>
+                                <div class="value_out">N/A</div>
+                            </div>
+                        </div>
+                        <div class="sensor EC">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name EC" style="cursor: pointer">EC(전기 전도도)</button>
+                                </div>
+                                <div class="reference">
+                                    수돗물 평균: 140∼300 us/cm
+                                </div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value facility_value_dp">N/A</div>
+                                <div class='img_school_pipe'></div>
+                                <div class='img_school'></div>
+                                <div class="result_out">N/A</div>
+                                <div class="value_out">N/A</div>
+                            </div>
+                        </div>
+                        <div class="sensor TEMP">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name TEMP">수온 (°C)</button>
+                                </div>
+                                <div class="reference"></div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value facility_value_dp">N/A</div>
+                                <div class='img_school_pipe'></div>
+                                <div class='img_school'></div>
+                                <div class="result_out">N/A</div>
+                                <div class="value_out">N/A</div>
+                            </div>
+                        </div>
+                    </div>
+                    {% elif loc_type == 4 %} <!-- 학교 + 조리실, 음수대 -->
+                    <div class="sensor_group">
+                        <div class="sensor FCL">
+                            <div class="content_1">
+                                <div class="title">
+                                    <button class="btn_sensor_name FCL" style="cursor: pointer">잔류 염소</button>
+                                </div>
+                                <div class="reference">
+                                    환경부 기준: 4.0~0.1 mg/L
+                                </div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility2">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value2 facility_value_dp">N/A</div>
+                                <div class='img_pipe1'>
+                                </div>
+                                <div class='img_pipe2'>
+                                </div>
+                                <div class="result_in_1">N/A</div>
+                                <div class="value_in_1">N/A</div>
+                                <div class="flow_to_name_1">조리실</div>
+                                <hr class="separator_sensor"> 
+                                <div class="result_in_2">N/A</div>
+                                <div class="value_in_2">N/A</div>
+                                <div class="flow_to_name_2">음수대</div>
+                            </div>
+                        </div>
+                        <div class="sensor TURBIDITY">
+                            <div class="content_1">
+                                <div class="title">
+                                    <button class="btn_sensor_name TURBIDITY" style="cursor: pointer">탁도</button>
+                                </div>
+                                <div class="reference">
+                                    환경부 기준: 0.5 NTU 이하
+                                </div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility2">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value2 facility_value_dp">N/A</div>
+                                <div class='img_pipe1'>
+                                </div>
+                                <div class='img_pipe2'>
+                                </div>
+                                <div class="result_in_1">N/A</div>
+                                <div class="value_in_1">N/A</div>
+                                <div class="flow_to_name_1">조리실</div>
+                                <hr class="separator_sensor"> 
+                                <div class="result_in_2">N/A</div>
+                                <div class="value_in_2">N/A</div>
+                                <div class="flow_to_name_2">음수대</div>
+                            </div>
+                        </div>
+                        <div class="sensor pH">
+                            <div class="content_1">
+                                <div class="title">
+                                    <button class="btn_sensor_name pH" style="cursor: pointer">pH</button>
+                                </div>
+                                <div class="reference">
+                                    환경부 기준: 5.8~8.5
+                                </div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility2">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value2 facility_value_dp">N/A</div>
+                                <div class='img_pipe1'>
+                                </div>
+                                <div class='img_pipe2'>
+                                </div>
+                                <div class="result_in_1">N/A</div>
+                                <div class="value_in_1">N/A</div>
+                                <div class="flow_to_name_1">조리실</div>
+                                <hr class="separator_sensor"> 
+                                <div class="result_in_2">N/A</div>
+                                <div class="value_in_2">N/A</div>
+                                <div class="flow_to_name_2">음수대</div>
+                            </div>
+                        </div>
+                        <div class="sensor TDS">
+                            <div class="content_1">
+                                <div class="title">
+                                    <button class="btn_sensor_name TDS" style="cursor: pointer">TDS</button>
+                                </div>
+                                <div class="reference">
+                                    환경부 기준: 500 mg/L 이하
+                                </div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility2">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value2 facility_value_dp">N/A</div>
+                                <div class='img_pipe1'>
+                                </div>
+                                <div class='img_pipe2'>
+                                </div>
+                                <div class="result_in_1">N/A</div>
+                                <div class="value_in_1">N/A</div>
+                                <div class="flow_to_name_1">조리실</div>
+                                <hr class="separator_sensor"> 
+                                <div class="result_in_2">N/A</div>
+                                <div class="value_in_2">N/A</div>
+                                <div class="flow_to_name_2">음수대</div>
+                            </div>
+                        </div>
+                        <div class="sensor EC">
+                            <div class="content_1">
+                                <div class="title">
+                                    <button class="btn_sensor_name EC" style="cursor: pointer">EC(전기 전도도)</button>
+                                </div>
+                                <div class="reference">
+                                    수돗물 평균: 140∼300 us/cm
+                                </div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility2">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value2 facility_value_dp">N/A</div>
+                                <div class='img_pipe1'>
+                                </div>
+                                <div class='img_pipe2'>
+                                </div>
+                                <div class="result_in_1">N/A</div>
+                                <div class="value_in_1">N/A</div>
+                                <div class="flow_to_name_1">조리실</div>
+                                <hr class="separator_sensor"> 
+                                <div class="result_in_2">N/A</div>
+                                <div class="value_in_2">N/A</div>
+                                <div class="flow_to_name_2">음수대</div>
+                            </div>
+                        </div>
+                        <div class="sensor TEMP">
+                            <div class="content_1">
+                                <div class="title">
+                                    <button class="btn_sensor_name TEMP">수온 (°C)</button>
+                                </div>
+                                <div class="reference"></div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility2">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value2 facility_value_dp">N/A</div>
+                                <div class='img_pipe1'>
+                                </div>
+                                <div class='img_pipe2'>
+                                </div>
+                                <div class="result_in_1">N/A</div>
+                                <div class="value_in_1">N/A</div>
+                                <div class="flow_to_name_1">조리실</div>
+                                <hr class="separator_sensor"> 
+                                <div class="result_in_2">N/A</div>
+                                <div class="value_in_2">N/A</div>
+                                <div class="flow_to_name_2">음수대</div>
+                            </div>
+                        </div>
+
+                        <div class="sensor TEMP">
+                            <div class="content_1">
+                                <div class="title">
+                                    <button class="btn_sensor_name TEMP">수온 (°C)</button>
+                                </div>
+                                <div class="reference"></div>
+                                <hr class="separator">
+                                <div class="separator_ver"></div>
+                                <div class="facility2">
+                                    <div class="supplier">
+                                        수돗물 공급지
+                                    </div>
+                                    <hr class="separator_ver2">    
+                                    <div class="facility_name">N/A</div>
+                                </div>
+                                <div class="facility_value2 facility_value_dp">N/A</div>
+                                <div class='img_pipe1'>
+                                </div>
+                                <div class='img_pipe2'>
+                                </div>
+                                <div class="result_in_1">N/A</div>
+                                <div class="value_in_1">N/A</div>
+                                <div class="flow_to_name_1">조리실</div>
+                                <hr class="separator_sensor"> 
+                                <div class="result_in_2">N/A</div>
+                                <div class="value_in_2">N/A</div>
+                                <div class="flow_to_name_2">음수대</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {% elif loc_type == 6 %} <!-- 수영장 -->
+                    <div class="sensor_group">
+                        <div class="sensor FCL">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name FCL" style="cursor: pointer">잔류 염소</button>
+                                    
+                                </div>
+                                <div class="reference">
+                                    수질 기준: 4.0~0.1 mg/L
+                                </div>
+                                <hr class="separator">                                
+                                <!-- 여기 삭제-->
+                                <div class='img'>
+                                </div>
+                                <div class="result_in">N/A</div>
+                                <div class="value_in">N/A</div>
+                                <div class="result_out">N/A</div>
+                                <div class="value_out">N/A</div>
+                            </div>
+                        </div>
+                        <div class="sensor TURBIDITY">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name TURBIDITY" style="cursor: pointer">탁도</button>
+                                </div>
+                                <div class="reference">
+                                    수질 기준: 0.5 NTU 이하
+                                </div>
+                                <hr class="separator">
+                                <!-- 여기 삭제-->                                
+                                <div class='img'></div>
+                                <div class="result_in">N/A</div>
+                                <div class="value_in">N/A</div>
+                                <div class="result_out">N/A</div>
+                                <div class="value_out">N/A</div>
+                            </div>
+                        </div>
+                        <div class="sensor pH">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name pH" style="cursor: pointer">pH</button>
+                                </div>
+                                <div class="reference">
+                                    수질 기준: 5.8~8.5
+                                </div>
+                                <hr class="separator">
+                                <!-- 여기 삭제-->
+                                <div class='img'></div>
+                                <div class="result_in">N/A</div>
+                                <div class="value_in">N/A</div>
+                                <div class="result_out">N/A</div>
+                                <div class="value_out">N/A</div>
+                            </div>
+                        </div>
+                        <div class="sensor TDS">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name TDS" style="cursor: pointer">TDS</button>
+                                </div>
+                                <div class="reference">
+                                    수질 기준: 500 mg/L 이하
+                                </div>
+                                <hr class="separator">
+                                <!-- 여기 삭제-->
+                                <div class='img'></div>
+                                <div class="result_in">N/A</div>
+                                <div class="value_in">N/A</div>
+                                <div class="result_out">N/A</div>
+                                <div class="value_out">N/A</div>
+                            </div>
+                        </div>
+                        <div class="sensor EC">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name EC" style="cursor: pointer">EC(전기 전도도)</button>
+                                </div>
+                                <div class="reference">
+                                    수돗물 평균: 140∼300 us/cm
+                                </div>
+                                <hr class="separator">
+                                <!-- 여기 삭제-->
+                                <div class='img'></div>
+                                <div class="result_in">N/A</div>
+                                <div class="value_in">N/A</div>
+                                <div class="result_out">N/A</div>
+                                <div class="value_out">N/A</div>
+                            </div>
+                        </div>
+                        <div class="sensor TEMP">
+                            <div class="content">
+                                <div class="title">
+                                    <button class="btn_sensor_name TEMP">수온 (°C)</button>
+                                </div>
+                                <div class="reference"></div>
+                                <hr class="separator">
+                                <!-- 여기 삭제-->
+                                <div class='img'></div>
+                                <div class="result_in">N/A</div>
+                                <div class="value_in">N/A</div>
+                                <div class="result_out">N/A</div>
+                                <div class="value_out">N/A</div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="chart_part">
+                    <div class="chart_info">
+                        <div class="title chart_info_title">차트 설정</div>
+                        <div class="chart_loading">
+                            <div class="chart_loading_text">로딩중</div>
+                            <img class="chart_loading_img" src="../static/img/chart.gif">
+                        </div>  
+                        <!-- <span class="label">측정 기간</span> -->
+                        <select class="combobox" id="select_chart_duration" style="cursor: pointer">
+                            <option value="1">1 시간</option>
+                            <option value="6">6 시간</option>
+                            <option value="12">12 시간</option>
+                            <option value="24">1 일</option>
+                            <option value="72">3 일</option>
+                            <option value="168">7 일</option>
+                            <option value="720">30 일</option>
+                        </select>
+                        <div class="btn_forecast">
+                            <label for="forecastCheck">
+                                <div class="btn_forecast_div">                                    
+                                    <label class="switch">
+                                        <input type="checkbox" id="forecastCheck">
+                                        <span class="slider round"></span>
+                                    </label>
+                                    <div class="btn_forecast_label">AI 수질 예측</div>
+                                    <div class="forecast_loading">
+                                        <div class="forecast_loading_text">예측중</div>
+                                        <img class="forecast_loading_img" src="../static/img/chart_pre.gif">
+                                    </div>                                    
+                                </div>                
+                            </label>            
+                        </div>
+                    </div>
+
+                    <div class="chart_group">
+                        <div class="chart FCL">
+                            <div class="content">
+                                <div class="title">잔류 염소  <span style="color: #297eff;">(환경부 기준: 4.0~0.1 mg/L)</span>
+                                </div>
+                                <canvas id="chart_FCL"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart TURBIDITY">
+                            <div class="content">
+                                <div class="title">탁도  <span style="color: #297eff;">(환경부 기준: 0.5 NTU 이하)</span>
+                                </div>
+                                <canvas id="chart_TURBIDITY"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart pH">
+                            <div class="content">
+                                <div class="title">pH  <span style="color: #297eff;">(환경부 기준: 5.8~8.5)</span>
+                                </div>
+                                <canvas id="chart_pH"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart TDS">
+                            <div class="content">
+                                <div class="title">TDS  <span style="color: #297eff;">(환경부 기준: 500 mg/L 이하)</span>    
+                                </div>
+                                <canvas id="chart_TDS"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart EC">
+                            <div class="content">
+                                <div class="title">EC  <span style="color: #297eff;">(수돗물 평균: 140∼300 us/cm)</span>
+                                </div>
+                                <canvas id="chart_EC"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart Temperature">
+                            <div class="content">
+                                <div class="title">수온 (°C)</div>
+                                <canvas id="chart_TEMP"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- 여기서 시작 -->
+            <div class="name_term FCL">
+                <div class="name_title">잔류 염소</div>
+                    <div class="name_content">
+                        <p>
+                            수돗물에 포함되어 있는 염소의 양을 나타내며,
+                            환경부 수돗물 수질기준은 4mg/L이하 입니다.
+                            세계보건기구(WHO)에서는 5mg/L이하로 권장하는 지침을 만들었으며
+                            이 값은 매우 보수적이어서 독성이 없음을 의미합니다.
+                            염소는 대부분의 선진국 정수장에서 많이 이용하고 있는 소독제로서 수돗물 중의 미생물을 살균하는 역할을 합니다.
+                            선진국의 경우 수돗물에서 염소냄새가 나지 않는 물은 안전하지 못하다고 하여 마시는 않는 경우도 있습니다.
+                            <span style="color:rgb(192, 0, 0)">국내에서는 평상시는 수돗물의 잔류염소량이 0.2 mg/L (=ppm) 이상,
+                                하절기에는 수인성 전염병 예방을 위하여 0.4 mg/L (=ppm) 이상을 유지하게 되어 있습니다.</span>
+                        </p>
+                    </div>
+                <div class="btn_name_term_close"><button>닫기</button></div>
+            </div>
+
+            <div class="name_term TURBIDITY">
+                <div class="name_title">탁도</div>
+                    <div class="name_content">
+                        <p>
+                            수돗물의 탁한정도를 나타내며,
+                            <span style="color:rgb(192, 0, 0)">환경부 수돗물 수질기준은 0.5NTU (NTU: Nephelometric Tubidity
+                                Unit) 이하입니다.</span>
+                            탁도는 수돗물의 수질을 판단하는 가장 기본적인 척도이며, 탁도값이 낮은 경우가 맑고 투명한 수돗물을 나타냅니다
+                        </p>
+                        <div>탁도 (Turbidity) 예시</div>
+                                <div class="acc_img"><img src="../static/img/turbidity.png"></div>
+                    </div>
+                <div class="btn_name_term_close"><button>닫기</button></div>
+            </div>
+            <div class="name_term pH">
+                <div class="name_title">pH</div>
+                    <div class="name_content">
+                        <p>
+                            물의 중성, 산성 또는 알카리성을 나타내는 지표입니다. pH의 척도는 0∼14까지 있고, pH =7.0 이 중성을 나타냅니다.
+                            pH가 7.0 미만인 물은 산성, pH가 7.0 이상인 물은 알카리성(또는 염기성)으로 간주합니다.
+                            <span style="color:rgb(192, 0, 0)">우리나라 먹는물 수질 기준에는 Ph가 5.8∼8.5로 정해져 있습니다.</span>
+                            <div class="acc_img"><img src="../static/img/ph.png"></div>
+                        </p>
+                    </div>
+                <div class="btn_name_term_close"><button>닫기</button></div>
+            </div>
+            <div class="name_term TDS">
+                <div class="name_title">TDS</div>
+                    <div class="name_content">
+                        <p>
+                            TDS는 물속에 포함된 활동성을 가진 이온들의 총량을 나타냅니다. 이것을 물속에 녹아 있는 미네랄, 염분, 금속이온 등을 포함합니다.
+                            먹는 물에는 철, 마그네슘, 칼슘과 같은 유익한 미네랄 성분이 정당히 함유되어 있어야 물맛이 좋습니다.
+                            따라서 TDS 값이 높다고 해서 나쁜물은 아니며,
+                            <span style="color:rgb(192, 0, 0)">먹는물 관리기준은 TDS 값은 500mg/L 이하입니다.</span>
+                            <div class="acc_img"><img src="../static/img/tds.png"></div>
+                        </p>
+                    </div>
+                <div class="btn_name_term_close"><button>닫기</button></div>
+            </div>
+            <div class="name_term EC">
+                <div class="name_title">EC(전기 전도도)</div>
+                    <div class="name_content">
+                        <p>
+                            물의 전기전도도는 물이 전류를 통과시키는 능력을 수치로 표현한 값입니다.
+                            자연상태의 물속에는 하천과 지하수를 통과한 각종 금속이온이 용해되어 많은 전해물질(이온)이 녹아 있는데 적당량이 들어 있으면,
+                            음용과 식품원료 등으로 좋습니다. 따라서 물속의 전해질의 양이 많으면 전기전도도가 높고,
+                            전해질의 양이 적으면 전기전도도가 낮아져 상수도물로서 적합한 것인지를 판단하는 기준으로 하고 있습니다.
+                            수돗물의 경우 나트륨, 칼슘, 마그네슘 등 인체에 유익한 미네랄 성분이 적당히 들어 있으면 전기가 잘 통하고,
+                            정수기에서 과도하게 미네랄을 제거한 물은 전기가 잘 통하지 않게 됩니다.
+                            <span style="color:rgb(192, 0, 0)">일반적으로 (서울시의 경우) 수돗물 평균 전기전도도는 140~300µS/cm 정도를 나타냅니다.</span>
+                        </p>
+                    </div>
+                <div class="btn_name_term_close"><button>닫기</button></div>
+            </div>
+            <!-- 여기서 끝 -->
+
+
+            <div class="section_term">
+                <div class="term_body">
+                    <div class="btn_show_term"><button>측정 항목 설명</button></div>
+                    <div class="term_form">
+                        <div class="title">측정 항목 설명</div>
+                        <div class="accordion">
+                            <div class="acc_title">잔류 염소</div>
+                            <div class="acc_content">
+                                <p>
+                                    수돗물에 포함되어 있는 염소의 양을 나타내며,
+                                    환경부 수돗물 수질기준은 4mg/L이하 입니다.
+                                    세계보건기구(WHO)에서는 5mg/L이하로 권장하는 지침을 만들었으며
+                                    이 값은 매우 보수적이어서 독성이 없음을 의미합니다.
+                                    염소는 대부분의 선진국 정수장에서 많이 이용하고 있는 소독제로서 수돗물 중의 미생물을 살균하는 역할을 합니다.
+                                    선진국의 경우 수돗물에서 염소냄새가 나지 않는 물은 안전하지 못하다고 하여 마시는 않는 경우도 있습니다.
+                                    <span style="color:rgb(192, 0, 0)">국내에서는 평상시는 수돗물의 잔류염소량이 0.2 mg/L (=ppm) 이상,
+                                        하절기에는 수인성 전염병 예방을 위하여 0.4 mg/L (=ppm) 이상을 유지하게 되어 있습니다.</span>
+                                </p>
+                            </div>
+                            <div class="acc_title">탁도 (Turbidity)</div>
+                            <div class="acc_content">
+                                <p>
+                                    수돗물의 탁한정도를 나타내며,
+                                    <span style="color:rgb(192, 0, 0)">환경부 수돗물 수질기준은 0.5NTU (NTU: Nephelometric Tubidity
+                                        Unit) 이하입니다.</span>
+                                    탁도는 수돗물의 수질을 판단하는 가장 기본적인 척도이며, 탁도값이 낮은 경우가 맑고 투명한 수돗물을 나타냅니다
+                                </p>
+                                <div>탁도 (Turbidity) 예시</div>
+                                <div class="acc_img"><img src="../static/img/turbidity.png"></div>
+                            </div>
+                            <div class="acc_title">TDS (Total Dissolved Solids: 총용존 고형물)</div>
+                            <div class="acc_content">
+                                <p>
+                                    TDS는 물속에 포함된 활동성을 가진 이온들의 총량을 나타냅니다. 이것을 물속에 녹아 있는 미네랄, 염분, 금속이온 등을 포함합니다.
+                                    먹는 물에는 철, 마그네슘, 칼슘과 같은 유익한 미네랄 성분이 정당히 함유되어 있어야 물맛이 좋습니다.
+                                    따라서 TDS 값이 높다고 해서 나쁜물은 아니며,
+                                    <span style="color:rgb(192, 0, 0)">먹는물 관리기준은 TDS 값은 500mg/L 이하입니다.</span>
+                                </p>
+                                <div class="acc_img"><img src="../static/img/tds.png"></div>
+                            </div>
+                            <div class="acc_title">전기전도도 (EC: Electric Conductivit)</div>
+                            <div class="acc_content">
+                                <p>
+                                    물의 전기전도도는 물이 전류를 통과시키는 능력을 수치로 표현한 값입니다.
+                                    자연상태의 물속에는 하천과 지하수를 통과한 각종 금속이온이 용해되어 많은 전해물질(이온)이 녹아 있는데 적당량이 들어 있으면,
+                                    음용과 식품원료 등으로 좋습니다. 따라서 물속의 전해질의 양이 많으면 전기전도도가 높고,
+                                    전해질의 양이 적으면 전기전도도가 낮아져 상수도물로서 적합한 것인지를 판단하는 기준으로 하고 있습니다.
+                                    수돗물의 경우 나트륨, 칼슘, 마그네슘 등 인체에 유익한 미네랄 성분이 적당히 들어 있으면 전기가 잘 통하고,
+                                    정수기에서 과도하게 미네랄을 제거한 물은 전기가 잘 통하지 않게 됩니다.
+                                    <span style="color:rgb(192, 0, 0)">일반적으로 (서울시의 경우) 수돗물 평균 전기전도도는 140~300µS/cm 정도를 나타냅니다.</span>
+                                </p>
+                            </div>
+                            <div class="acc_title">pH (Potential of Hydrogen: 수소 이온 농도)</div>
+                            <div class="acc_content">
+                                <p>
+                                    물의 중성, 산성 또는 알카리성을 나타내는 지표입니다. pH의 척도는 0∼14까지 있고, pH =7.0 이 중성을 나타냅니다.
+                                    pH가 7.0 미만인 물은 산성, pH가 7.0 이상인 물은 알카리성(또는 염기성)으로 간주합니다.
+                                    <span style="color:rgb(192, 0, 0)">우리나라 먹는물 수질 기준에는 Ph가 5.8∼8.5로 정해져 있습니다.</span>
+                                </p>
+                                <div class="acc_img"><img src="../static/img/ph.png"></div>
+                            </div>
+                        </div>
+                        <div class="btn_close_term"><button>닫기</button></div>
+                    </div>
+
+                    <div class="btn_show_system"><button>시스템 구성도</button></div>
+
+                    <div class="system_form">
+                        <div class="title">시스템 구성도</div>
+                        <div class="system_img"><img src="../static/img/water_system1.jpg"></div>
+                        <div class="btn_close_system"><button>닫기</button></div>
+                    </div>
+                </div>
+
+                <div class="logo">
+                    <div class="img"><img src="../static/img/mstec-logo.png"></div>
+                    <div class="name"><p>
+                        <span style="color:rgb(230, 120, 11)">S</span>mart 
+                        <span style="color:rgb(19, 7, 237)">P</span>ure<span style="color:rgb(4, 140, 27)">W</span>ater
+                        <span style="color:rgb(230, 120, 11)">S</span>ystem</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <form class="info_form">
+        <h3>회원정보</h3>
+        <hr class="separator">
+        <input type="password" placeholder="현재 비밀번호" id="change_PW_user_curr_password">
+        <input type="password" placeholder="새로운 비밀번호" id="change_PW_user_new_password">
+        <input type="password" placeholder="새로운 비밀번호 확인" id="change_PW_user_new_password_confirm">
+        <button type="button" id="btn_change_PW_submit">비밀번호 변경</button>
+
+        <p>장비 설치 위치</p>
+        <select id="change_installed_location"></select>
+
+        <button class="cancle">취소</button>
+        <button type="button" class="confirm">저장</button>
+    </form>
+    <script type="text/javascript">   
+        const loc_type = "{{ loc_type }}";
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@0.1.1"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+
+
+
+    <script src="../static/dashboard.js?v={% now 'U' %}"></script>
+</body>
+
+</html>
