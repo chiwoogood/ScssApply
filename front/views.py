@@ -11,6 +11,10 @@ def map(request):
 
 def water(request):
     return render(request,'front/water.html')
+
+
+def hello(request):
+    return render(request,'front/templatebox.html')
 # def water(request):
 #     url = 'http://opendata.kwater.or.kr/openapi-data/service/pubd/waterinfos/waterquality/watersgcl/codelist'
 #     pa
