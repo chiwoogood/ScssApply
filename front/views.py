@@ -3,7 +3,7 @@ import requests
 # Create your views here.
 
 def home(request):
-    return render(request,'front/index.html')
+    return render(request,'front/home.html')
 
 def map(request):
     return render(request,'front/map.html')
