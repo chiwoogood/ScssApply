@@ -1194,7 +1194,7 @@ input, select, textarea {
 		-moz-flex-direction: column;
 		-webkit-flex-direction: column;
 		-ms-flex-direction: column;
-		flex-direction: column;
+		flex-direction: column-reverse;
 		-moz-align-items: center;
 		-webkit-align-items: center;
 		-ms-align-items: center;

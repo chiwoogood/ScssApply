@@ -7,72 +7,177 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
         <link rel="stylesheet" href="{% static 'front/css/main.css' %}" /> 
         <link rel="stylesheet" href="{% static 'front/css/map.css' %}">
-        <noscript><link rel="stylesheet" href="{% static 'front/css/noscript.css'%}" /></noscript>
+        <!-- <noscript><link rel="stylesheet" href="{% static 'front/css/noscript.css'%}" /></noscript> -->
     </head>
     <body class="is-preload">
-    <div id="wrapper">
-        <header id="header">
-            <div id="map">
-                <div id="south"></div>
-                <div id="seoul"><h3>서울특별시</h3></div>
-                <div id="gygg"><h3>경기도</h3></div>
-                <div id="incheon"><h3>인천광역시</h3></div>
-                <div id="gangwon"><h3>강원도</h3></div>
-                <div id="chungbuk"><h3>충청북도</h3></div>
-                <div id="chungnam"><h3>충청남도</h3></div>
-                <div id="daejeon"><h3>대전광역시</h3></div>
-                <div id="sejong"><h3>세종특별자치시</h3></div>
-                <div id="gwangju"><h3>광주광역시</h3></div>
-                <div id="jeonbuk"><h3>전라북도</h3></div>
-                <div id="jeonnam"><h3>전라남도</h3></div>
-                <div id="gyeongbuk"><h3>경상북도</h3></div>
-                <div id="gyeongnam"><h3>경상남도</h3></div>
-                <div id="daegu"><h3>대구광역시</h3></div>
-                <div id="busan"><h3>부산광역시</h3></div>
-                <div id="ulsan"><h3>울산광역시</h3></div>
-                <div id="jeju"><h3>제주특별자치도</h3></div>
+        <div id="wrapper">
+            <header id="header">
+                <div id="map">
+                    <div id="south">
+                        <div id="seoul"><h3>서울특별시</h3></div>
+                        <div id="gygg"><h3>경기도</h3></div>
+                        <div id="incheon"><h3>인천광역시</h3></div>
+                        <div id="gangwon"><h3>강원도</h3></div>
+                        <div id="chungbuk"><h3>충청북도</h3></div>
+                        <div id="chungnam"><h3>충청남도</h3></div>
+                        <div id="daejeon"><h3>대전광역시</h3></div>
+                        <div id="sejong"><h3>세종특별자치시</h3></div>
+                        <div id="gwangju"><h3>광주광역시</h3></div>
+                        <div id="jeonbuk"><h3>전라북도</h3></div>
+                        <div id="jeonnam"><h3>전라남도</h3></div>
+                        <div id="gyeongbuk"><h3>경상북도</h3></div>
+                        <div id="gyeongnam"><h3>경상남도</h3></div>
+                        <div id="daegu"><h3>대구광역시</h3></div>
+                        <div id="busan"><h3>부산광역시</h3></div>
+                        <div id="ulsan"><h3>울산광역시</h3></div>
+                        <div id="jeju"><h3>제주특별자치도</h3></div>
+                    </div>
+                </div>
+            </header>
+
+            <div id="main">
+            <!-- Intro -->
+                <article id="seoul">
+                    <h2 class="major">Intro</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic01.jpg' %}" alt=""/></span>
+                    <!--<span class="image main"><img src="images/pic01.jpg" alt="" /></span> -->
+                    <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. By the way, check out my <a href="#work">awesome work</a>.</p>
+                </article>
+            <!-- Work -->
+
+                <article id="gygg">
+                    <h2 class="major">Work</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic02.jpg' %}" alt=""/></span>
+                    <!-- <span class="image main"><img src="images/pic02.jpg" alt="" /></span> -->
+                    <p>Adipiscing magna sed dolor elit. Praesent eleifend dignissim arcu, at eleifend sapien imperdiet ac. Aliquam erat volutpat. Praesent urna nisi, fringila lorem et vehicula lacinia quam. Integer sollicitudin mauris nec lorem luctus ultrices.</p>
+                    <p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus pharetra. Pellentesque condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus amet feugiat tempus.</p>
+                </article>
+
+            <!-- About -->
+                <article id="incheon">
+                    <h2 class="major">About</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic03.jpg' %}" alt=""/></span>
+                    <!-- <span class="image main"><img src="images/pic03.jpg" alt="" /></span> -->
+                    <p>Lorem ipsum dolor sit amet, consectetur et adipiscing elit. Praesent eleifend dignissim arcu, at eleifend sapien imperdiet ac. Aliquam erat volutpat. Praesent urna nisi, fringila lorem et vehicula lacinia quam. Integer sollicitudin mauris nec lorem luctus ultrices. Aliquam libero et malesuada fames ac ante ipsum primis in faucibus. Cras viverra ligula sit amet ex mollis mattis lorem ipsum dolor sit amet.</p>
+                </article>
+
+
+                <article id="gangwon">
+                    <h2 class="major">Intro</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic01.jpg' %}" alt=""/></span>
+                    <!--<span class="image main"><img src="images/pic01.jpg" alt="" /></span> -->
+                    <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. By the way, check out my <a href="#work">awesome work</a>.</p>
+                </article>
+
+                <article id="chungbuk">
+                    <h2 class="major">Intro</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic01.jpg' %}" alt=""/></span>
+                    <!--<span class="image main"><img src="images/pic01.jpg" alt="" /></span> -->
+                    <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. By the way, check out my <a href="#work">awesome work</a>.</p>
+                </article>
+
+                <article id="chungnam">
+                    <h2 class="major">Intro</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic01.jpg' %}" alt=""/></span>
+                    <!--<span class="image main"><img src="images/pic01.jpg" alt="" /></span> -->
+                    <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. By the way, check out my <a href="#work">awesome work</a>.</p>
+                </article>
+
+                <article id="daejeon">
+                    <h2 class="major">Intro</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic01.jpg' %}" alt=""/></span>
+                    <!--<span class="image main"><img src="images/pic01.jpg" alt="" /></span> -->
+                    <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. By the way, check out my <a href="#work">awesome work</a>.</p>
+                </article>
+
+                <article id="sejong">
+                    <h2 class="major">Intro</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic01.jpg' %}" alt=""/></span>
+                    <!--<span class="image main"><img src="images/pic01.jpg" alt="" /></span> -->
+                    <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. By the way, check out my <a href="#work">awesome work</a>.</p>
+                </article>
+
+                <article id="gwangju">
+                    <h2 class="major">Intro</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic01.jpg' %}" alt=""/></span>
+                    <!--<span class="image main"><img src="images/pic01.jpg" alt="" /></span> -->
+                    <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. By the way, check out my <a href="#work">awesome work</a>.</p>
+                </article>
+
+                <article id="jeonbuk">
+                    <h2 class="major">Intro</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic01.jpg' %}" alt=""/></span>
+                    <!--<span class="image main"><img src="images/pic01.jpg" alt="" /></span> -->
+                    <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. By the way, check out my <a href="#work">awesome work</a>.</p>
+                </article>
+
+                <article id="jeonnam">
+                    <h2 class="major">Intro</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic01.jpg' %}" alt=""/></span>
+                    <!--<span class="image main"><img src="images/pic01.jpg" alt="" /></span> -->
+                    <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. By the way, check out my <a href="#work">awesome work</a>.</p>
+                </article>
+
+
+                <article id="gyeongbuk">
+                    <h2 class="major">Intro</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic01.jpg' %}" alt=""/></span>
+                    <!--<span class="image main"><img src="images/pic01.jpg" alt="" /></span> -->
+                    <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. By the way, check out my <a href="#work">awesome work</a>.</p>
+                </article>
+
+                <article id="gyeongnam">
+                    <h2 class="major">Intro</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic01.jpg' %}" alt=""/></span>
+                    <!--<span class="image main"><img src="images/pic01.jpg" alt="" /></span> -->
+                    <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. By the way, check out my <a href="#work">awesome work</a>.</p>
+                </article>
+
+                <article id="daegu">
+                    <h2 class="major">Intro</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic01.jpg' %}" alt=""/></span>
+                    <!--<span class="image main"><img src="images/pic01.jpg" alt="" /></span> -->
+                    <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. By the way, check out my <a href="#work">awesome work</a>.</p>
+                </article>
+
+                <article id="busan">
+                    <h2 class="major">Intro</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic01.jpg' %}" alt=""/></span>
+                    <!--<span class="image main"><img src="images/pic01.jpg" alt="" /></span> -->
+                    <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. By the way, check out my <a href="#work">awesome work</a>.</p>
+                </article>
+
+                <article id="ulsan">
+                    <h2 class="major">Intro</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic01.jpg' %}" alt=""/></span>
+                    <!--<span class="image main"><img src="images/pic01.jpg" alt="" /></span> -->
+                    <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. By the way, check out my <a href="#work">awesome work</a>.</p>
+                </article>
+
+                <article id="jeju">
+                    <h2 class="major">Intro</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic01.jpg' %}" alt=""/></span>
+                    <!--<span class="image main"><img src="images/pic01.jpg" alt="" /></span> -->
+                    <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. By the way, check out my <a href="#work">awesome work</a>.</p>
+                </article>
             </div>
-        </header>
-        <div>hi</div>
-        <div id="main">
-        <!-- Intro -->
-            <article id="intro">
-                <h2 class="major">Intro</h2>
-
-                <span class="image main"><img src="{% static 'front/images/pic01.jpg' %}" alt=""/></span>
-                <!--<span class="image main"><img src="images/pic01.jpg" alt="" /></span> -->
-                
-                <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. By the way, check out my <a href="#work">awesome work</a>.</p>
-            </article>
-
-        <!-- Work -->
-            <article id="work">
-                <h2 class="major">Work</h2>
-                <span class="image main"><img src="{% static 'front/images/pic02.jpg' %}" alt=""/></span>
-                <!-- <span class="image main"><img src="images/pic02.jpg" alt="" /></span> -->
-                <p>Adipiscing magna sed dolor elit. Praesent eleifend dignissim arcu, at eleifend sapien imperdiet ac. Aliquam erat volutpat. Praesent urna nisi, fringila lorem et vehicula lacinia quam. Integer sollicitudin mauris nec lorem luctus ultrices.</p>
-                <p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus pharetra. Pellentesque condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus amet feugiat tempus.</p>
-            </article>
-
-        <!-- About -->
-            <article id="about">
-                <h2 class="major">About</h2>
-                <span class="image main"><img src="{% static 'front/images/pic03.jpg' %}" alt=""/></span>
-                <!-- <span class="image main"><img src="images/pic03.jpg" alt="" /></span> -->
-                <p>Lorem ipsum dolor sit amet, consectetur et adipiscing elit. Praesent eleifend dignissim arcu, at eleifend sapien imperdiet ac. Aliquam erat volutpat. Praesent urna nisi, fringila lorem et vehicula lacinia quam. Integer sollicitudin mauris nec lorem luctus ultrices. Aliquam libero et malesuada fames ac ante ipsum primis in faucibus. Cras viverra ligula sit amet ex mollis mattis lorem ipsum dolor sit amet.</p>
-            </article>
         </div>
-    </div>
-    <script>
-        var sca = '01';
-    </script>
-    <script type="text/javascript" src="{% static 'front/js/raphael_min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'front/js/raphael_path_s.korea.js' %}"></script>
-    <script src="{% static 'front/js/jquery.min.js' %}"></script>
-    <script src="{% static 'front/js/browser.min.js' %}"></script>
-    <script src="{% static 'front/js/breakpoints.min.js' %}"></script>
-    <script src="{% static 'front/js/util.js' %}"></script>
-    <script src="{% static 'front/js/main.js' %}"></script>
-</body>
+        <script>
+            var sca = '01';
+        </script>
+        <script type="text/javascript" src="{% static 'front/js/raphael_min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'front/js/raphael_path_s.korea.js' %}"></script>
+        <script src="{% static 'front/js/jquery.min.js' %}"></script>
+        <script src="{% static 'front/js/browser.min.js' %}"></script>
+        <script src="{% static 'front/js/breakpoints.min.js' %}"></script>
+        <script src="{% static 'front/js/util.js' %}"></script>
+        <script src="{% static 'front/js/main.js' %}"></script>
+        <script>
+            window.addEventListener("load", function() {
+                var introSection = document.getElementById("intro");
+                introSection.scrollIntoView();
+            });
+        </script>
+    </body>
 </html>
 
