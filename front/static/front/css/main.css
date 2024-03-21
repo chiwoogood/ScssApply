@@ -1350,7 +1350,6 @@ input, select, textarea {
 		-moz-flex-direction: column;
 		-webkit-flex-direction: column;
 		-ms-flex-direction: column;
-		flex-direction: column;
 		-moz-align-items: center;
 		-webkit-align-items: center;
 		-ms-align-items: center;
@@ -1364,7 +1363,9 @@ input, select, textarea {
 		width: 100%;
 		padding: 4rem 2rem;
 		z-index: 3;
+		flex-direction: column-reverse;
 	}
+
 
 		#wrapper:before {
 			content: '';
@@ -1438,7 +1439,6 @@ input, select, textarea {
 				position: absolute;
 				top: calc(-3.5rem - 1px);
 				left: calc(50% - 1px);
-				width: 1px;
 				height: calc(3.5rem + 1px);
 				background: #ffffff;
 			}

@@ -10,4 +10,6 @@ urlpatterns = [
     path('map/',views.map,name="map"),
     path('hello/',views.hello,name="hello"),
     path('temp/',views.temp,name="temp"),
+    path('nav/',views.nav,name="nav"),
+    path('footer/',views.footer,name="footer"),
 ]

@@ -10,9 +10,12 @@
     </head>
     <body class="is-preload">
         <div id="wrapper">
+            <header id="header">
+                {% block content %}
+
+                {% endblock %}
+            </header>
         </div>
-        <script type="text/javascript" src="{% static 'js/raphael_min.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/raphael_path_s.korea.js' %}"></script>
         <script src="{% static 'js/jquery.min.js' %}"></script>
         <script src="{% static 'js/browser.min.js' %}"></script>
         <script src="{% static 'js/breakpoints.min.js' %}"></script>

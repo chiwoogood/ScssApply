@@ -25,6 +25,13 @@ def temp(request):
     return render(request,'front/temp1.html')
 
 
+def nav(request):
+    return render(request,'front/nav.html')
+
+def footer(request):
+    return render(request,'front/footer.html')
+
+
 
 # import requests
 
