@@ -9,4 +9,5 @@ urlpatterns = [
     path('water/',views.water,name="water"),
     path('map/',views.map,name="map"),
     path('hello/',views.hello,name="hello"),
+    path('temp/',views.temp,name="temp"),
 ]

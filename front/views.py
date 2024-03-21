@@ -21,6 +21,10 @@ def hello(request):
 #     return render(request,'front/water.html')
 
 
+def temp(request):
+    return render(request,'front/temp1.html')
+
+
 
 # import requests
 
