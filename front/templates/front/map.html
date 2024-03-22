@@ -1,22 +1,19 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE HTML>
-<html>
-    <head>
-        <title>Dimension by HTML5 UP</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-        <!-- <link rel="stylesheet" href="{% static 'front/css/map.css' %}"> -->
-        <link rel="stylesheet" href="{% static 'front/css/main.css' %}" /> 
-        <noscript><link rel="stylesheet" href="{% static 'front/css/noscript.css'%}" /></noscript>
-        <style>
-            #map {
-                float:left; position:relative; width: 320px; height:400px; margin: 0
-            }
-            #south {
-                width: 320px; height:400px; position: absolute; top: 0px; left: 0;
-            }
-        </style>
-    </head>
+
+{% block head %}
+{{ block.super }}
+    <style>
+        #map {
+            float:left; position:relative; width: 320px; height:400px; margin: 0
+        }
+        #south {
+            width: 320px; height:400px; position: absolute; top: 0px; left: 0;
+        }
+    </style>
+{% endblock head %}
+
+{% block content %}
     <body class="is-preload">
         <div id="wrapper">
             <header id="header">
@@ -64,30 +61,22 @@
             </header>
             <div id="main">
             <!-- Intro -->
-                <article id="seoul">
+                <article id="city">
                     <h2 class="major">Work</h2>
                     <span class="image main"><img src="{% static 'front/images/pic02.jpg' %}" alt=""/></span>
                     <!-- <span class="image main"><img src="images/pic02.jpg" alt="" /></span> -->
-                    <p>Adipiscing magna sed dolor elit. Praesent eleifend dignissim arcu, at eleifend sapien imperdiet ac. Aliquam erat volutpat. Praesent urna nisi, fringila lorem et vehicula lacinia quam. Integer sollicitudin mauris nec lorem luctus ultrices.</p>
-                    <p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus pharetra. Pellentesque condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus amet feugiat tempus.</p>
                 </article>
             </div>
         </div>
         <div id="bg"></div> <!-- article 배경 -->
+    </body>
+{% endblock content %}
 
-        <!-- 순서 대로 -->
+{% block script %}
+{{ block.super }}
         <script>
             var sca = '00'; 
         </script>
-        <!-- 순서 대로 -->
-
-        <script type="text/javascript" src="{% static 'front/js/raphael_min.js' %}"></script>
-        <script type="text/javascript" src="{% static 'front/js/raphael_path_s.korea.js' %}"></script>
-        <script src="{% static 'front/js/jquery.min.js' %}"></script>
-        <script src="{% static 'front/js/browser.min.js' %}"></script>
-        <script src="{% static 'front/js/breakpoints.min.js' %}"></script>
-        <script src="{% static 'front/js/util.js' %}"></script>
-        <script src="{% static 'front/js/main.js' %}"></script>
-    </body>
-</html>
-
+        <script type="text/javascript" src="{% static 'js/raphael_min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/raphael_path_s.korea.js' %}"></script>
+{% endblock script %} 
