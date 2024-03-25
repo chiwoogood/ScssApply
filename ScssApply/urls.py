@@ -19,5 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('front/',include('front.urls', namespace='front')),
+    path('front/', include('front.urls', namespace='front')),
+    path('aquaAPIs/', include('aquaAPIs.urls', namespace='aquaAPIs')),
 ]
