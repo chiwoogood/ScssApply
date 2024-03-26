@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('front/', include('front.urls', namespace='front')),
     path('aquaAPIs/', include('aquaAPIs.urls', namespace='aquaAPIs')),
+    path('dashs/',include('dashs.urls', namespace='dashs')),
 ]
