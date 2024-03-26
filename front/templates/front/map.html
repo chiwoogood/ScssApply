@@ -5,18 +5,31 @@
 {{ block.super }}
     <style>
         #map {
-            float:left; position:relative; width: 320px; height:400px; margin: 0
+            float:left; position:relative; width: 320px; height:400px; margin: 0;
         }
         #south {
             width: 320px; height:400px; position: absolute; top: 0px; left: 0;
         }
+        #main {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        article {
+            flex: 1 1 100%;
+            max-width: 100%;
+            display: none; 
+        }
+        article:first-child {
+            display: none; 
+        }
+
     </style>
 {% endblock head %}
 
 {% block content %}
     <body class="is-preload">
         <div id="wrapper">
-            <h4 style="margin-bottom: 0px;"><span style="color: orange;">S</span>mart <span style="color: blue;"> P</span>ure<span style="color: greenyellow;"> W</span>ater <span style="color: orange;">S</span>ystem</h4><h2>종합관제시스템</h2>
+            <a href="https://www.purewatersystem.kr"><h4 style="margin-bottom: 0px;"><span style="color: orange;">S</span>mart <span style="color: blue;"> P</span>ure<span style="color: greenyellow;"> W</span>ater <span style="color: orange;">S</span>ystem</h4><h2>종합관제시스템</h2></a>
             <header id="header">
                 <section>
                     <div class="table-wrapper">
@@ -61,11 +74,74 @@
                 </div>
             </header>
             <div id="main">
-            <!-- Intro -->
-                <article id="city">
-                    <h2 class="major">Work</h2>
+                <article id="seoul">
+                    <h2 class="">Work</h2>
                     <span class="image main"><img src="{% static 'front/images/pic02.jpg' %}" alt=""/></span>
                     <!-- <span class="image main"><img src="images/pic02.jpg" alt="" /></span> -->
+                </article>
+                <article id="gangwon">
+                    <h2 class="major">Work</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic02.jpg' %}" alt=""/></span>
+                </article>
+                <article id="gygg">
+                    <h2 class="major">Work</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic02.jpg' %}" alt=""/></span>
+                </article>
+                <article id="incheon">
+                    <h2 class="major">Work</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic02.jpg' %}" alt=""/></span>
+                </article>
+                <article id="chungnam">
+                    <h2 class="major">Work</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic02.jpg' %}" alt=""/></span>
+                </article>
+                <article id="chungbuk">
+                    <h2 class="major">Work</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic02.jpg' %}" alt=""/></span>
+                </article>
+                <article id="daejeon">
+                    <h2 class="major">Work</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic02.jpg' %}" alt=""/></span>
+                </article>
+                <article id="sejong">
+                    <h2 class="major">Work</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic02.jpg' %}" alt=""/></span>
+                </article>
+                <article id="jeonbuk">
+                    <h2 class="major">Work</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic02.jpg' %}" alt=""/></span>
+                </article>
+                <article id="jeonnam">
+                    <h2 class="major">Work</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic02.jpg' %}" alt=""/></span>
+                </article>
+                <article id="gwangju">
+                    <h2 class="major">Work</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic02.jpg' %}" alt=""/></span>
+                </article>
+                <article id="gyeongbuk">
+                    <h2 class="major">Work</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic02.jpg' %}" alt=""/></span>
+                </article>
+                <article id="gyeongnam">
+                    <h2 class="major">Work</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic02.jpg' %}" alt=""/></span>
+                </article>
+                <article id="daegu">
+                    <h2 class="major">Work</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic02.jpg' %}" alt=""/></span>
+                </article>
+                <article id="ulsan">
+                    <h2 class="major">Work</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic02.jpg' %}" alt=""/></span>
+                </article>
+                <article id="busan">
+                    <h2 class="major">Work</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic02.jpg' %}" alt=""/></span>
+                </article>
+                <article id="jeju">
+                    <h2 class="major">Work</h2>
+                    <span class="image main"><img src="{% static 'front/images/pic02.jpg' %}" alt=""/></span>
                 </article>
             </div>
         </div>
@@ -78,6 +154,7 @@
         <script>
             var sca = '00'; 
         </script>
+        
         <script type="text/javascript" src="{% static 'js/raphael_min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/raphael_path_s.korea.js' %}"></script>
-{% endblock script %} 
+{% endblock script %}
