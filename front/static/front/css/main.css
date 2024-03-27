@@ -1712,10 +1712,9 @@ input, select, textarea {
 		position: relative;
 		width: 40rem;
 		max-width: 100%;
+		background-image: linear-gradient(to bottom right, rgba(190, 223, 247), rgba(252, 245, 236));
 		border-radius: 4px;
 		opacity: 0;
-		/* 그라데이션 효과 추가 */
-		background-image: linear-gradient(to bottom right,rgba(#BEDFF7), rgba(#FCF5EC));
 	}
 
 			#main article.active {

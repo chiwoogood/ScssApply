@@ -1,5 +1,6 @@
 from django.shortcuts import render
 import requests
+from datetime import datetime
 
 # import logging
 # logger = logging.getLogger(__name__)
@@ -55,16 +56,15 @@ def aquaMetro(request): #한국수자원공사_광역정수장 수질
 
 
 def weather(request):
-    # API URL : https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15084084 
+    # API URL : http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst
     # API KEY : QLU%2BOoN9aE8uCyPs2GsKpDWYyZENcFs7mMQOWiisTp%2Fk8xHzZASS9ARC0Fe6nA3UL1v8khWxpxb98IpsGOEISw%3D%3D
-
+    today = datetime.today().strftime('%Y%m%d')
     url = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst'
-    params ={'serviceKey' : '#QLU%2BOoN9aE8uCyPs2GsKpDWYyZENcFs7mMQOWiisTp%2Fk8xHzZASS9ARC0Fe6nA3UL1v8khWxpxb98IpsGOEISw%3D%3D', 'pageNo' : '1', 'numOfRows' : '1000', 'dataType' : 'json', 'base_date' : '20240628', 'base_time' : '0600', 'nx' : '55', 'ny' : '127' }
+    params ={'serviceKey' : 'QLU+OoN9aE8uCyPs2GsKpDWYyZENcFs7mMQOWiisTp/k8xHzZASS9ARC0Fe6nA3UL1v8khWxpxb98IpsGOEISw==', 'dataType' : 'json', 'base_date' : today, 'base_time' : '0600', 'nx' : '54', 'ny' : '121' }
     response = requests.get(url, params=params)
-    temp = response.content
-
+    decoded_response = response.text
     context = {
-        'temps' : temp
+        'temps' : decoded_response
     }
 
     return render(request,'aquaAPIS/weather.html',context)
