@@ -213,7 +213,7 @@ input, select, textarea {
 	h3 {
 		font-size: 1rem;
 		line-height: 1.4;
-		letter-spacing: 0.5rem;
+		letter-spacing: 0.2rem;
 		color:white;
 		pointer-events: none;
 	}
@@ -439,7 +439,7 @@ input, select, textarea {
 		background-size: 1.25rem;
 		background-repeat: no-repeat;
 		background-position: calc(100% - 1rem) center;
-		height: 2.75rem;
+		height: 2rem;
 		padding-right: 2.75rem;
 		text-overflow: ellipsis;
 	}
@@ -461,7 +461,7 @@ input, select, textarea {
 	input[type="password"],
 	input[type="email"],
 	select {
-		height: 2.75rem;
+		height: 2rem;
 	}
 
 	textarea {
@@ -955,15 +955,17 @@ input, select, textarea {
 			}
 
 		table td {
-			padding: 0.75em 0.75em;
+			padding: 0.1rem;
+			text-align: center;
+
 		}
 
 		table th {
 			color: #ffffff;
 			font-size: 0.9em;
 			font-weight: 600;
-			padding: 0 0.75em 0.75em 0.75em;
-			text-align: left;
+			padding: 0.1rem;
+			text-align: center;
 		}
 
 		table thead {
@@ -1710,7 +1712,7 @@ input, select, textarea {
 			position: relative;
 			width: 40rem;
 			max-width: 100%;
-			background-color: AliceBlue;
+			background: linear-gradient(135deg, beige, #e6f5ff);
 			border-radius: 4px;
 			opacity: 0;
 		}

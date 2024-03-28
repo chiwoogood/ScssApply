@@ -11,22 +11,15 @@
     <div id="wrapper">
         <h3><span style="color: orange;">S</span>mart <span style="color: blue;"> P</span>ure<span style="color: greenyellow;"> W</span>ater <span style="color: orange;">S</span>ystem</h3>
         <div class="header">
-            <h3>금천 롯데 캐슬 골드 파크 3차 </h3>
+            <h3>금천 롯데 캐슬 골드 파크 3차</h3>
             <div class="water_condition">
-                <span class="label">현재 수돗물 수질 상태 : 적합 </span>
+                <h4>현재 수돗물 수질 상태 : </h4>
                 <span class="value">-</span>
             </div>
             <div class="list_index">
-                <div class="warning">
-                    <span class="label">주의 항목:</span>
-                    <span class="value">-</span>
-                </div>
-                <div class="danger">
-                    <span class="label">심각 항목:</span>
-                    <span class="value">-</span>
-                </div>
+                <h5>주의 항목 - </h5>
+                <h5>심각 항목 - </h5>
             </div>
-
             <div class="member">
                 <p class="id">/</p>
                 <p class="logout"><a href="#">로그아웃</a></p>
@@ -50,7 +43,7 @@
 
 
                 <!-- 날씨 API -->
-                <!-- <div class="section_weather_time">
+                <div class="section_weather_time">
                     <div class="weather_time">
                         <div class="img_weather"></div>
                         <div class="description">-</div>
@@ -74,14 +67,14 @@
                         <div class="hms">- : - : -</div>
                         <div class="date">-</div>
                     </div>
-                </div> -->
+                </div>
                 <!-- 날씨 API 끝-->
 
 
                 <!-- 우리 동네 수질 정보 -->
-                <!-- <div class="section_k_water">
+                <div class="section_k_water">
                     <div class="k_water">
-                        <div class="title">우리동네 수돗물 수질 정보</div>
+                        <h5>우리동네 수돗물 수질 정보</h5>
                         
                         <div class="select_region">
                             <div class="title">지역 선택</div>
@@ -99,58 +92,59 @@
                         <div class="water_repos"><span id="text_point_name"></span></div>
                         <div class="update_time"></div>
                         <div class="data">
-                            <table>
-                                <tbody>
+                        
+                            <div class="table-wrapper">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>항목</th>
+                                            <th>값</th>
+                                            <th>상태</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>example</td>
+                                            <td>example</td>
+                                            <td>example</td>
+                                        </tr>
+                                        <tr>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                    </tbody>
                                     <tr>
-                                        <td>항목</td>
-                                        <td>값</td>
-                                        <td>상태</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
                                     </tr>
                                     <tr>
-                                        <td>잔류 염소 (mg/L)
-                                        <p>환경부 기준: 4.0 이하</p>
-                                        </td>
-                                        <td><span id="text_FCL">N/A</span></td>
-                                        <td><span id="result_FCL">N/A</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
                                     </tr>
                                     <tr>
-                                        <td>탁도 (NTU)
-                                        <p>환경부 기준: 0.5 이하</p>
-                                        </td>
-                                        <td><span id="text_TURBIDITY">N/A</td>
-                                        <td><span id="result_TURBIDITY">N/A</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
                                     </tr>
                                     <tr>
-                                        <td>pH
-                                        <p>환경부 기준: 5.8 ~ 8.5</p>
-                                        </td>
-                                        <td><span id="text_pH">N/A</span></td>
-                                        <td><span id="result_pH">N/A</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
                                     </tr>
-                                    <tr>
-                                        <td>TDS (mg/L)
-                                        <p>환경부 기준: 500 이하</p>
-                                        </td>
-                                        <td><span id="text_TDS">N/A</td>
-                                        <td><span id="result_TDS">N/A</td>
-                                    </tr>
-                                    <tr>
-                                        <td>EC (us/cm)
-                                            <p>수돗물 평균: 140 ~ 300</p>
-                                        </td>
-                                        <td><span id="text_EC">N/A</td>
-                                        <td><span id="result_EC">N/A</td>
-                                    </tr>
-                                    <tr>
-                                        <td>수온 (°C)</td>
-                                        <td><span id="text_TEMP">N/A</span></td>
-                                        <td><span id="result_TEMP">N/A</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                    <!-- <tfoot>
+                                        <tr>
+                                            <td colspan="2"></td>
+                                            <td>100.00</td>
+                                        </tr>
+                                    </tfoot> -->
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div> -->
+                </div>
                 <!-- 우리 동네 수질 정보 끝 -->
 
 
@@ -1209,7 +1203,7 @@
         </script>
         </div>
         </div>
-        <div id="mbg"></div> <!-- article 배경 -->
+        <div id="bg"></div> <!-- article 배경 -->
 </body>
 {% endblock content %}
 
