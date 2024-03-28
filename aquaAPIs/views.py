@@ -70,3 +70,16 @@ def weather(request):
     return render(request,'aquaAPIS/weather.html',context)
 
 
+def sujcode(request): # 정수장 코드 수집
+    # API URL : http://apis.data.go.kr/B500001/rwis/waterQuality/fcltylist/codelist
+    # API KEY : 
+
+    url = 'http://apis.data.go.kr/B500001/rwis/waterQuality/fcltylist/codelist'
+    params ={'serviceKey' : 'QLU+OoN9aE8uCyPs2GsKpDWYyZENcFs7mMQOWiisTp/k8xHzZASS9ARC0Fe6nA3UL1v8khWxpxb98IpsGOEISw==', 'fcltyDivCode' : '2', 'numOfRows' : '100', 'pageNo' : '100' }
+
+    response = requests.get(url, params=params)
+    temp = response
+    context = {
+        'temps': temp,
+    }
+    return render(request,'aquaAPIs/sujcode.html',context)

@@ -1,4 +1,5 @@
-@keyframes blinker { 50% { opacity: 0; } }
+/* animatio과 함께 사용하지만 실제로는 적용 하지 않음
+/* @keyframes blinker { 50% { opacity: 0; } }
 @keyframes warnblink { 
   0% { border-color: #ff8400; } 
   50% { border-color: white;}
@@ -8,10 +9,12 @@
   0% { border-color: red;}
   50% { border-color: white; }
   100% { border-color: red;} 
-}
+} */
 /*====================================================================================================*/
 /*----------------------------------------------------------------------------------------------------*/
 /*====================================================================================================*/
+
+/* 사용자 선택 방지 (드래그 등)*/
 html {
   -ms-user-select: none;
   -moz-user-select: -moz-none;
@@ -19,18 +22,9 @@ html {
   -webkit-user-select: none;
   user-select: none; 
 }
+
+
 /*====================================================================================================*/
-body {
-  margin: 0;
-  font-size: 16px;
-  font-family: 'Nanum Gothic', sans-serif;
-
-  background-image: url("../static/img/background.png?v={% now 'U' %}");
-  background-repeat: no-repeat; /* 배경 이미지 반복 X */
-  background-size: contain; /* 같은 배경 이미지가 요소의 영역에 딱 맞도록 크기 조정 */
-  background: linear-gradient(to right, rgb(97, 214, 255, 0.1), rgb(97, 214, 255, 0.5));
-
-}
 /*====================================================================================================*/
 /*----------------------------------------------------------------------------------------------------*/
 /*====================================================================================================*/
@@ -40,62 +34,22 @@ body {
 /*====================================================================================================*/
 /*----------------------------------------------------------------------------------------------------*/
 /*====================================================================================================*/
-.header{
+.header {
   position: relative;
-  height: 80px;
-  background-color: rgb(255, 255, 255);
-  font-family: 'Jeju Gothic', sans-serif;
+  height: 3rem;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0); /* 투명한 흰색 배경 */
+  color: black; /* 흰색 글씨 */
   z-index: 2;
-  display: grid;
-  grid-template-columns: 340px 300px 3fr 1fr;
+  display: flex;
+  grid-template-columns: 600px 300px 3fr 1fr;
   grid-template-rows: 60% 40%;
+  justify-content: space-evenly;
 }
 /*====================================================================================================*/
 /*----------------------------------------------------------------------------------------------------*/
 /*====================================================================================================*/
-.header .bldg_name{
-  grid-column: 1;
-  position: relative;
-  display: inline-block;
-  /* right: 50%;
- *   transform:  translate(-50%,0); */
-  text-align: center;
-  padding-top: 25px;
-  font-size: 130%;
-  color:rgb(1, 1, 113);
-}
-.header .water_condition{
-  grid-column: 2;
-  grid-row: 1/2;
-  position: relative;
-  display: inline-block;
-  top: 30px;
-  padding-left: 10px;
-  font-size: 20px;
-}
-.header .list_index{
-  grid-column: 3;
-  grid-row: 1/2;
-  position: relative;
-  display: inline-block;
-  top: 15px;
-  padding-left: 40px;
-}
-.header .member{
-  grid-column: 1;
-  grid-row: 2;
-  float: right;
-  text-align: center;
-  margin: 0 auto;
-}
-.header .btn_fullscreen{
-  grid-column: 4;
-  grid-row: 1/2;
-  margin-left: 0px;
-  margin-top: 10px;
-  border-radius: 5px;
 
-}
 
 .btn_forecast{
   grid-column: none;
@@ -362,15 +316,16 @@ input:checked + .slider:before {
 .main{
   position: relative;
   font-size: 14px;
-  height: 100%;
+  height: 85%;
+  width:85%;
 }
 /*====================================================================================================*/
 /*----------------------------------------------------------------------------------------------------*/
 /*====================================================================================================*/
 .section{
   position: relative;
-  margin: 0 20px;
-  padding: 20px 0;
+  margin: 0;
+  padding: 0;
   display: grid;
   grid-template-rows: 230px 530px auto;
   grid-template-columns: 300px auto;
@@ -713,7 +668,7 @@ input:checked + .slider:before {
   /* grid-template-rows: auto;  */
   background-color: rgba(255, 255, 255, 0.9);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  height: 330px;
+  height: 40%;
 }
 
 .sensor_info {
