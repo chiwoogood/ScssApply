@@ -195,6 +195,16 @@ input, select, textarea {
 			width: -ms-max-content;
 			width: max-content;
 			padding-bottom: 0.5rem;
+			margin: 0 0 1rem 0;
+		}
+
+		h1.primary, h2.primary, h4.primary, h5.primary, h6.primary {
+			border-bottom: solid 2px black;
+			width: -moz-max-content;
+			width: -webkit-max-content;
+			width: -ms-max-content;
+			width: max-content;
+			padding-bottom: 0.5rem;
 			margin: 0 0 2rem 0;
 		}
 
@@ -1712,9 +1722,11 @@ input, select, textarea {
 			position: relative;
 			width: 40rem;
 			max-width: 100%;
-			background: linear-gradient(135deg, beige, #e6f5ff);
 			border-radius: 4px;
 			opacity: 0;
+			overflow-y: auto; /* 세로 스크롤이 필요한 경우에만 스크롤바가 표시됩니다. */
+    		max-height: 80vh; /* 내용이 길어질 경우 페이지가 너무 길어지지 않도록 최대 높이를 지정합니다. */
+			background: linear-gradient(135deg, white, #d7e9f9);
 		}
 
 			#main article.active {
@@ -1736,6 +1748,19 @@ input, select, textarea {
 				text-indent: 4rem;
 				overflow: hidden;
 				white-space: nowrap;
+			}
+			
+			#main article::-webkit-scrollbar {
+				width: 8px; /* 스크롤바의 너비 */
+			}
+			
+			#main article::-webkit-scrollbar-thumb {
+				background-color: rgb(207, 207, 207); /* 스크롤바 색상 */
+				border-radius: 5px; /* 스크롤바의 모서리 둥글게 */
+			}
+			
+			#main article::-webkit-scrollbar-track {
+				background-color: #eee; /* 스크롤바 트랙의 색상 */
 			}
 
 				#main article .close:before {
@@ -1763,6 +1788,24 @@ input, select, textarea {
 
 				#main article .close:active:before {
 					background-color: rgba(255, 255, 255, 0.175);
+				}
+
+				#main article h1, h2, h3, h4, h5, h6{
+					color: black;
+					font-weight: 600;
+					line-height: 1.5;
+					margin: 0 0 1rem 0;
+					text-transform: uppercase;
+					letter-spacing: 0.1rem;
+				}
+				
+				#main article p{
+					color: black;
+					font-weight: 400;
+					line-height: 1.5;
+					margin: 0 0 1rem 0;
+					text-transform: uppercase;
+					letter-spacing: 0.1rem;
 				}
 
 		@media screen and (max-width: 736px) {
