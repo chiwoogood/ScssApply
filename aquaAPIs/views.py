@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import requests
 from datetime import datetime
+import json
 
 # import logging
 # logger = logging.getLogger(__name__)
@@ -83,3 +84,22 @@ def sujcode(request): # 정수장 코드 수집
         'temps': temp,
     }
     return render(request,'aquaAPIs/sujcode.html',context)
+
+
+def seoul(request):
+    url = 'http://openapi.seoul.go.kr:8088/4943646d766a6d6831313565486b6375/json/AreaQltwtrSttus/1/2000/'
+
+    response = requests.get(url)
+    if response.status_code == 200:
+        # API로부터 받아온 JSON 데이터를 파이썬 객체로 변환합니다.
+        data = response.json()
+
+        # 필요한 데이터를 추출하여 context에 담습니다.
+        # 예를 들어, 'data' 키에 필요한 데이터를 담습니다.
+        context = {'data': data}
+
+        # 템플릿에 context를 전달하여 렌더링합니다.
+        return render(request, 'aquaAPIs/seoul.html', context)
+    else:
+        # API 요청이 실패한 경우에는 오류를 처리합니다.
+        return render(request, 'aquaAPIs/error.html')

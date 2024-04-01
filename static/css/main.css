@@ -206,6 +206,7 @@ input, select, textarea {
 			width: max-content;
 			padding-bottom: 0.5rem;
 			margin: 0 0 2rem 0;
+			color:black;
 		}
 
 	h1 {
@@ -1791,7 +1792,7 @@ input, select, textarea {
 				}
 
 				#main article h1, h2, h3, h4, h5, h6{
-					color: black;
+					color: white;
 					font-weight: 600;
 					line-height: 1.5;
 					margin: 0 0 1rem 0;

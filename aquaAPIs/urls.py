@@ -10,4 +10,5 @@ urlpatterns = [
     path('aquaMetro/',views.aquaMetro,name='aquaMetro'),
     path('weather/',views.weather,name='weather'),
     path('sujcode/',views.sujcode,name='sujcode'),
+    path('seoul/',views.seoul,name='seoul'),
 ]
