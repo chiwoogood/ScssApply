@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'front',
     'aquaAPIs',
     'dashs',
+    'crawling',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
