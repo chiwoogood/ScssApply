@@ -1,10 +1,15 @@
 from django.shortcuts import render
-import requests
+import requests, json, pandas
 from datetime import datetime
-import json
+import xml.etree.ElementTree as ET
 
-# import logging
-# logger = logging.getLogger(__name__)
+
+def parseXMLResponse(xml_string):
+    root = ET.fromstring(xml_string)
+    data = {}
+    for child in root:
+        data[child.tag] = child.text
+    return data
 
 def water(request):
     return render(request,'aquaAPIs/water.html')
@@ -42,18 +47,23 @@ def aquaProvince(request): # 한국수자원공사_지방상수도 수질 정보
 
 
 
-def aquaMetro(request): #한국수자원공사_광역정수장 수질
+def aquaMetro(request):
     # API URL : https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=3072578
     # API KEY : QLU+OoN9aE8uCyPs2GsKpDWYyZENcFs7mMQOWiisTp/k8xHzZASS9ARC0Fe6nA3UL1v8khWxpxb98IpsGOEISw==
-    url = 'http://opendata.kwater.or.kr/openapi-data/service/pubd/waterways/wdr/dailwater/list'
-    params ={'serviceKey' : 'QLU+OoN9aE8uCyPs2GsKpDWYyZENcFs7mMQOWiisTp/k8xHzZASS9ARC0Fe6nA3UL1v8khWxpxb98IpsGOEISw==', 'fcode' : 'A002', 'stdt' : '2018-10-01', 'eddt' : '2018-10-05', 'numOfRows' : '10', 'pageNo' : '1' }
 
+    url = 'http://opendata.kwater.or.kr/openapi-data/service/pubd/waterways/wdr/waterfltplt/list'
+    params = {'serviceKey': 'QLU+OoN9aE8uCyPs2GsKpDWYyZENcFs7mMQOWiisTp/k8xHzZASS9ARC0Fe6nA3UL1v8khWxpxb98IpsGOEISw==', 'numOfRows': '10', 'pageNo': '1'}
+    
     response = requests.get(url, params=params)
-    temp = response
-    context = {
-        'temps' : temp
-    }
-    return render(request, 'aquaAPIs/metro.html',context)
+
+    if response.status_code == 200:
+        decodedData = parseXMLResponse(response.content)
+        context = {
+            'temps': decodedData
+            }
+        return render(request, 'aquaAPIs/metro.html', context)
+    else:
+        return render(request, 'aquaAPIs/error.html', context)
 
 
 def weather(request):
@@ -73,7 +83,7 @@ def weather(request):
 
 def sujcode(request): # 정수장 코드 수집
     # API URL : http://apis.data.go.kr/B500001/rwis/waterQuality/fcltylist/codelist
-    # API KEY : 
+    # API KEY : QLU+OoN9aE8uCyPs2GsKpDWYyZENcFs7mMQOWiisTp/k8xHzZASS9ARC0Fe6nA3UL1v8khWxpxb98IpsGOEISw==
 
     url = 'http://apis.data.go.kr/B500001/rwis/waterQuality/fcltylist/codelist'
     params ={'serviceKey' : 'QLU+OoN9aE8uCyPs2GsKpDWYyZENcFs7mMQOWiisTp/k8xHzZASS9ARC0Fe6nA3UL1v8khWxpxb98IpsGOEISw==', 'fcltyDivCode' : '2', 'numOfRows' : '100', 'pageNo' : '100' }
@@ -86,20 +96,25 @@ def sujcode(request): # 정수장 코드 수집
     return render(request,'aquaAPIs/sujcode.html',context)
 
 
-def seoul(request):
-    url = 'http://openapi.seoul.go.kr:8088/4943646d766a6d6831313565486b6375/json/AreaQltwtrSttus/1/2000/'
+def aquaSeoul(request):
+    ranges = [(1, 1000), (1001, 2000), (2001, 2903)]
+    serviceKey = '4943646d766a6d6831313565486b6375'
+    allData = []
+    for start, end in ranges:
+        url = f"http://openapi.seoul.go.kr:8088/{serviceKey}/json/AreaQltwtrSttus/{start}/{end}/"
+        response = requests.get(url)
+        
+        if response.status_code == 200:
+            allData.append(response.json())
+        else:
+            return render(request, 'aquaAPIs/error.html')
+    context = {
+        'data': allData,
+    }
+    
+    return render(request, 'aquaAPIs/seoul.html', context)
+            
 
-    response = requests.get(url)
-    if response.status_code == 200:
-        # API로부터 받아온 JSON 데이터를 파이썬 객체로 변환합니다.
-        data = response.json()
 
-        # 필요한 데이터를 추출하여 context에 담습니다.
-        # 예를 들어, 'data' 키에 필요한 데이터를 담습니다.
-        context = {'data': data}
 
-        # 템플릿에 context를 전달하여 렌더링합니다.
-        return render(request, 'aquaAPIs/seoul.html', context)
-    else:
-        # API 요청이 실패한 경우에는 오류를 처리합니다.
-        return render(request, 'aquaAPIs/error.html')
+
