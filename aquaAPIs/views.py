@@ -44,7 +44,7 @@ def aquaProvince(request): # 한국수자원공사_지방상수도 수질 정보
 
     url = 'http://apis.data.go.kr/B500001/waterinfos/waterquality/daywater/daywaterlist'
     params ={'serviceKey' : 'QLU+OoN9aE8uCyPs2GsKpDWYyZENcFs7mMQOWiisTp/k8xHzZASS9ARC0Fe6nA3UL1v8khWxpxb98IpsGOEISw==', 'pageNo' : '1', 'numOfRows' : '10', 'sgccd' : '48310', 'sitecd' : '21002', 'stdt' : '20190608', 'eddt' : '20190618', '_type' : 'json' }
-    asciiToJson()
+    # asciiToJson()
     response = requests.get(url, params=params)
     temp = asciiToJson(response.content)
     context = {
@@ -86,17 +86,33 @@ def aquaMetro(request):
 
 
 def weather(request):
-    # API URL : http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst
+    # API URL : https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15084084
     # API KEY : QLU%2BOoN9aE8uCyPs2GsKpDWYyZENcFs7mMQOWiisTp%2Fk8xHzZASS9ARC0Fe6nA3UL1v8khWxpxb98IpsGOEISw%3D%3D
-    today = datetime.today().strftime('%Y%m%d')
-    url = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst'
-    params ={'serviceKey' : 'QLU+OoN9aE8uCyPs2GsKpDWYyZENcFs7mMQOWiisTp/k8xHzZASS9ARC0Fe6nA3UL1v8khWxpxb98IpsGOEISw==', 'dataType' : 'json', 'base_date' : today, 'base_time' : '0600', 'nx' : '54', 'ny' : '121' }
-    response = requests.get(url, params=params)
-    decoded_response = response.text
-    context = {
-        'temps' : decoded_response
-    }
 
+    today = datetime.today().strftime('%Y%m%d')
+    current_time = datetime.now().strftime("%H%M")
+    weatherData = dict()
+    url = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst'
+    params ={'serviceKey' : 'QLU+OoN9aE8uCyPs2GsKpDWYyZENcFs7mMQOWiisTp/k8xHzZASS9ARC0Fe6nA3UL1v8khWxpxb98IpsGOEISw==', 'dataType' : 'json', 'base_date' : today, 'base_time' : current_time, 'nx' : '54', 'ny' : '121' }
+    responseData = requests.get(url, params=params).text
+    toJsonData = json.loads(responseData)
+    bodyData = toJsonData['response']['body']['items']['item']
+    for temp in bodyData:
+        weatherData[temp['category']] = temp['obsrValue']
+    # value = [dic[temp['category']] : temp['obsrValue'] for temp in bodyData]
+    #[('PTY', '0'), ('REH', '63'), ('RN1', '0'), ('T1H', '17'), ('UUU', '3.2'), ('VEC', '272'), ('VVV', '0'), ('WSD', '3.2')]
+    # PTY (강수 형태): 관측된 값은 0입니다. 이는 강수가 없음을 나타냅니다.
+    # REH (상대 습도): 관측된 값은 63%입니다.
+    # RN1 (1시간 강수량): 관측된 값은 0입니다. 이는 최근 1시간 동안의 강수량이 없음을 나타냅니다.
+    # T1H (1시간 기온): 관측된 값은 17°C입니다. 현재 온도를 나타냅니다.
+    # UUU (동풍 성분): 관측된 값은 3.2입니다. 동쪽으로 향하는 풍향을 나타냅니다.
+    # VEC (풍향): 관측된 값은 272입니다. 풍향을 나타냅니다.
+    # VVV (남풍 성분): 관측된 값은 0입니다. 남쪽으로 향하는 풍향을 나타냅니다.
+    # WSD (풍속): 관측된 값은 3.2입니다. 풍속을 나타냅니다.
+    
+    context = {
+        'weatherData' : weatherData
+    }
     return render(request,'aquaAPIS/weather.html',context)
 
 

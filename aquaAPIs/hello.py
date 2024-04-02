@@ -87,3 +87,5 @@ response = {
     }
   }
 }
+today = datetime.today().strftime('%Y%m%d')
+print(today)
