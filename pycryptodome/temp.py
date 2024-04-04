@@ -2,6 +2,7 @@ import time
 import datetime
 
 import socket
+import pymysql
 
 import base64
 from Crypto import Random
@@ -141,7 +142,11 @@ def read_PLC():    # socket & PLC device 통신, 받아온 데이터 분할,
         print(connection)
 
     return result, connection
-
+    # result = [date_info, time_info, serial_info, 
+    #         EC_input, pH_input, TURBIDITY_input, FCL_input, TEMP_input, TDS_input, 
+    #         EC_output, pH_output, TURBIDITY_output, FCL_output, TEMP_output, TDS_output, 
+    #         room_temp, room_hum, sampling_time]
+    # connection = 연결정보
 
 
 # #############################################################################################
