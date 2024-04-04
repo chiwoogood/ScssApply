@@ -1,7 +1,6 @@
 import time
 import datetime
 
-import pymysql
 import socket
 
 import base64
@@ -11,9 +10,11 @@ from Crypto.Cipher import AES
 ###############################################################################################
 # Database 암호화
 ###############################################################################################
-BS = 16
+BS = 16 # Block Size가 16바이트. AES가 128, 192 또는 256비트의 키를 사용하더라도 블록 크기가 128비트로 고정되어 있음을 의미한다.
+
 pad = lambda s: s + (BS - len(s.encode('utf-8')) % BS) * chr(BS - len(s.encode('utf-8')) % BS)
 unpad = lambda s : s[:-ord(s[len(s)-1:])]
+# pad함수와 unpad함수는 AES 알고리즘의 블록 사이즈에 맞추기 위한 함수이다. 블록크기를 맞춰줘야 암호화 및 복호화를 할 수 있기 때문에 쓸 모 없는 데이터들을 추가하기도 한다.
 
 class AESCipher:
     def __init__( self, key ):
@@ -21,7 +22,7 @@ class AESCipher:
 
     def encrypt( self, raw ):
         raw = pad(raw)
-        iv = Random.new().read( AES.block_size )
+        iv = Random.new().read( AES.block_size ) #보통 16바이트??? 모르겠다 이건. 
         cipher = AES.new( self.key, AES.MODE_CBC, iv )
         return base64.b64encode( iv + cipher.encrypt( raw.encode('utf-8') ) )
 
@@ -39,21 +40,21 @@ class AESCipher:
 ###############################################################################################
 def read_PLC():    # socket & PLC device 통신, 받아온 데이터 분할, 
     try:
-        HOST = '192.168.3.250'
-        PORT = 6000
-        ADDR = (HOST, PORT)
+        HOST = '192.168.3.250' # 해당 PLC
+        PORT = 6000 # 해당 PORT
+        ADDR = (HOST, PORT) # 주소(IP,PORT)
 
-        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.settimeout(1)
-        client.connect(ADDR)
+        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # TCP 소켓 객체 생성 IPv4
+        client.settimeout(1) # 타임 아웃 시간 1초
+        client.connect(ADDR) # 해당 PLC 주소에 연결
 
-        msg = 'SD'
-        client.send(msg.encode('ascii'))
+        msg = 'SD' 
+        client.send(msg.encode('ascii')) # 'SD'라는 문자열 데이터를 PLC에 전송하고 응답을 기다림
 
         # print(msg)
         # print(msg.encode('ascii'))
-        read_data = client.recv(1024).decode('ascii').split('#')
-
+        read_data = client.recv(1024).decode('ascii').split('#') # 최대 1024바이트의 아스키코드 응답을 받고 '#'을 기준으로 문자열로 데이터를 받겠다.
+        
         data_device_info = read_data[0].split(',')
         data_inlet = read_data[1]
         data_outlet = read_data[2]
@@ -95,6 +96,30 @@ def read_PLC():    # socket & PLC device 통신, 받아온 데이터 분할,
                 EC_output, pH_output, TURBIDITY_output, FCL_output, TEMP_output, TDS_output, 
                 room_temp, room_hum, sampling_time]
         
+
+        # date_info: PLC에서 받아온 장치 정보의 날짜
+        # time_info: PLC에서 받아온 장치 정보의 시간
+        # serial_info: PLC에서 받아온 장치의 시리얼 번호
+        # EC_input: PLC에서 받아온 입구의 전기전도도(EC) 값
+        # pH_input: PLC에서 받아온 입구의 pH 값
+        # TURBIDITY_input: PLC에서 받아온 입구의 탁도 값
+        # FCL_input: PLC에서 받아온 입구의 염소 농도 값
+        # TEMP_input: PLC에서 받아온 입구의 온도 값
+        # TDS_input: PLC에서 받아온 입구의 TDS(Total Dissolved Solids) 값총용존고형물 (양이온 + 음이온)
+        # EC_output: PLC에서 받아온 출구의 전기전도도(EC) 값
+        # pH_output: PLC에서 받아온 출구의 pH 값
+        # TURBIDITY_output: PLC에서 받아온 출구의 탁도 값
+        # FCL_output: PLC에서 받아온 출구의 염소 농도 값
+        # TEMP_output: PLC에서 받아온 출구의 온도 값
+        # TDS_output: PLC에서 받아온 출구의 TDS(Total Dissolved Solids) 값
+        # room_temp: PLC에서 받아온 방의 온도 값
+        # room_hum: PLC에서 받아온 방의 습도 값
+        # sampling_time: PLC에서 받아온 데이터의 샘플링 시간
+
+
+
+
+
         connection = "OK"
         print(connection)
 
@@ -550,32 +575,6 @@ if __name__ == '__main__':
         except Exception as e:
             print(e)
             print("main error")
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             # key = [0x10, 0x01, 0x15, 0x1B, 0xA1, 0x11, 0x57, 0x72, 0x6C, 0x21, 0x56, 0x57, 0x62, 0x16, 0x05, 0x3D,
             #         0xFF, 0xFE, 0x11, 0x1B, 0x21, 0x31, 0x57, 0x72, 0x6B, 0x21, 0xA6, 0xA7, 0x6E, 0xE6, 0xE5, 0x3F]
 
