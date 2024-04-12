@@ -4,7 +4,7 @@ import random
 import matplotlib.pyplot as plt
 
 # 더 많은 데이터를 위한 예시 리스트 생성
-num_data_points = 1000
+num_data_points = 10002
 start_date = '2022-01-01'
 end_date = '2022-12-31'
 
