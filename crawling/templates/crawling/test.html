@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Custom Keyboard Example</title>
+    <script>
+        function addCharacter(character) {
+            var inputField = document.getElementById('inputField');
+            inputField.value += character;
+        }
+
+        function backspace() {
+            var inputField = document.getElementById('inputField');
+            inputField.value = inputField.value.slice(0, -1);
+        }
+    </script>
+</head>
+<body>
+    <input type="text" id="inputField">
+    <br>
+    <button onclick="addCharacter('A')">A</button>
+    <button onclick="addCharacter('B')">B</button>
+    <button onclick="addCharacter('C')">C</button>
+    <button onclick="backspace()">Backspace</button>
+</body>
+</html>

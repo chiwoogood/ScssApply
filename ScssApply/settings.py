@@ -135,3 +135,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRONJOBS = [
     ('1 * * * * *', 'crawling.practice.output >> /logfile.log 2>&1'),
 ]
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]

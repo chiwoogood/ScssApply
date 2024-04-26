@@ -23,7 +23,7 @@ class AESCipher:
 
     def encrypt( self, raw ):
         raw = pad(raw)
-        iv = Random.new().read( AES.block_size ) #보통 16바이트??? 모르겠다 이건. 
+        iv = Random.new().read( AES.block_size )  
         cipher = AES.new( self.key, AES.MODE_CBC, iv )
         return base64.b64encode( iv + cipher.encrypt( raw.encode('utf-8') ) )
 

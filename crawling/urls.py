@@ -5,5 +5,6 @@ app_name = 'crawling'
 
 urlpatterns = [
     path('trafilatura', views.trafilatura, name='trafilatura'),
+    path('virtualkeyboard',views.virtualkeyboard,name='virtualkeyboard')
 
 ]
