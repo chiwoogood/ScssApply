@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Water Data</title>
+</head>
+<body>
+    <h1>Water Facility List</h1>
+    <ul>
+        {% for item in datas %}
+            <li>{{ item.fltplt }}: {{ item.fltpltnm }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

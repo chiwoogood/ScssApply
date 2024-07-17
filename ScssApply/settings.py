@@ -36,6 +36,10 @@ INSTALLED_APPS = [
     'aquaAPIs',
     'dashs',
     'crawling',
+    'drf',
+    'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
+    'django_filters',
     'django_crontab',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -134,6 +138,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRONJOBS = [
     ('1 * * * * *', 'crawling.practice.output >> /logfile.log 2>&1'),
+    
 ]
 
 STATICFILES_DIRS = [

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMS 전송 테스트</title>
+</head>
+<body>
+    <h1>SMS 전송 테스트</h1>
+    <form id="smsForm">
+        {% csrf_token %}
+        <label for="templateCode">템플릿 코드:</label>
+        <input type="text" id="templateCode" name="templateCode" required><br><br>
+        
+        <label for="content">내용:</label><br>
+        <textarea id="content" name="content" rows="4" cols="50" required></textarea><br><br>
+        
+        <label for="phoneNumber">전화번호:</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" required><br><br>
+
+        <button type="button" onclick="sendSMS()">SMS 전송</button>
+    </form>
+
+    <div id="response"></div>
+
+    <script>
+        function sendSMS() {
+            var templateCode = document.getElementById("templateCode").value;
+            var content = document.getElementById("content").value;
+            var phoneNumber = document.getElementById("phoneNumber").value;
+            var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            var formData = {
+                "template_code": templateCode,
+                "content": content,
+                "user_phone": phoneNumber,
+                "csrfmiddlewaretoken": csrfToken
+            };
+
+            fetch("crawling/send_alarm/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("response").innerHTML = "SMS가 성공적으로 전송되었습니다.";
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                document.getElementById("response").innerHTML = "SMS 전송 중 오류가 발생했습니다.";
+            });
+        }
+
+    </script>
+</body>
+</html>

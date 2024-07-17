@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="user_phone_number" placeholder="휴대폰 번호를 입력하세요">
+    <button id="phone_verification_submit">인증번호 발송</button> 
+
+    <!-- CSRF 토큰 추가 -->
+    <input type="hidden" id="csrfmiddlewaretoken" name="csrfmiddlewaretoken" value="{% csrf_token %}">
+    
+    <!-- jQuery 라이브러리 추가 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+        $("#phone_verification_submit").click(function(){
+            var user_phone_number = $("#user_phone_number").val();
+            send_phone_verification_code(user_phone_number)
+        });
+
+        function send_phone_verification_code(user_phone_number){
+            var csrfmiddlewaretoken = $("#csrfmiddlewaretoken").val();
+
+            $.ajax({
+                type: "POST",
+                url: 'send_phone_verification_code',
+                data:{
+                    'csrfmiddlewaretoken' : csrfmiddlewaretoken,
+                    'user_phone_number' : user_phone_number,
+                },
+                success: function(data){
+                    alert(data.msg);
+                },
+                error: function(error){
+                    console.error(error);
+                }
+            });
+        };
+    </script>
+</body>
+</html>

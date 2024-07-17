@@ -23,4 +23,5 @@ urlpatterns = [
     path('aquaAPIs/', include('aquaAPIs.urls', namespace='aquaAPIs')),
     path('dashs/',include('dashs.urls', namespace='dashs')),
     path('crawling/',include('crawling.urls',namespace='crawling')),
+    path('drf/', include('drf.urls',namespace='drf')),
 ]
